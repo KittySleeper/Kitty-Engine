@@ -139,11 +139,9 @@ class Paths
 	{
 		for (path in ASSETS_PATH)
 		{
-			var fullPath = '$path/$key';
-
 			#if sys
-			if (FileSystem.exists(fullPath))
-				return fullPath;
+			if (FileSystem.exists('$path/$key'))
+				return '$path/$key';
 			#end
 		}
 
@@ -152,20 +150,15 @@ class Paths
 
 	static public function readDirectory(key:String):Array<String>
 	{
-		if (exists(key)) {
-			#if sys
-			for (path in ASSETS_PATH)
-			{
+		#if sys
+		for (path in ASSETS_PATH)
+			if (FileSystem.exists('$path/$key'))
 				return FileSystem.readDirectory('$path/$key');
-			}
 
-			return [];
-			#else
-			return [];
-			#end
-		} else {
-			return [];
-		}
+		return [];
+		#else
+		return [];
+		#end
 	}
 
 	inline static public function dumpCache():Void

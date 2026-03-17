@@ -12,7 +12,7 @@ using StringTools;
 class HScript
 {
 	#if sys
-	public static final allowedExtensions:Array<String> = ["hx", "hxs", "hxc"];
+	public static final allowedExtensions:Array<String> = ["hx", "hxs", "hxc", "hxscript", "haxe"];
 	public static var parser:Parser;
 	public static var staticVars:Map<String, Dynamic> = new Map();
 
@@ -74,13 +74,19 @@ class HScript
 				"Http" => haxe.Http,
 				"FlxSprite" => flixel.FlxSprite,
 				"FlxText" => flixel.text.FlxText,
+				"FlxSound" => flixel.sound.FlxSound,
+
+				"FlxTween" => flixel.tweens.FlxTween,
+				"FlxEase" => flixel.tweens.FlxEase,
 
 				"FlxBackdrop" => flixel.addons.display.FlxBackdrop,
 
 				"Assets" => Assets,
 
 				"PlayState" => PlayState,
+				"PlayStateChangeables" => PlayStateChangeables,
 				"Paths" => Paths,
+				"Conductor" => Conductor,
 
 				"HScript" => HScript,
 			];
