@@ -42,12 +42,12 @@
 
 	<assets path="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets" exclude="*.mp3" unless="web"/>
-		
+
 	<assets path='example_mods' rename='mods' embed='false'/>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
 	<assets path='LICENSE' rename='LICENSE.txt' />
 	<!-- <template path='mods' /> -->
-	
+
 	<!-- <assets path="CHANGELOG.md" rename='changelog.txt'/> -->
 
 	<!-- _______________________________ Libraries ______________________________ -->
@@ -63,10 +63,10 @@
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
-	<haxelib name="faxe" if='switch'/>
 	<haxelib name="linc_luajit" if="windows"/>
 
-	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
+	<haxedef name="FLX_NO_DEBUG" unless="debug" />
+	<haxelib name="hxcpp-debug-server" if="debug" />
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->
@@ -109,7 +109,7 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	
+
 	<icon path="art/icon16.png" size='16'/>
 	<icon path="art/icon32.png" size='32'/>
 	<icon path="art/icon64.png" size='64'/>
@@ -120,5 +120,5 @@
 
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
-	
+
 </project>
