@@ -54,7 +54,7 @@ class LoadReplayState extends MusicBeatState
             var string:String = controlsStrings[i];
             actualNames[i] = string;
 			var rep:Replay = Replay.LoadReplay(string);
-            controlsStrings[i] = string.split("time")[0] + " " + (rep.replay.songDiff == 2 ? "HARD" : rep.replay.songDiff == 1 ? "EASY" : "NORMAL");
+            controlsStrings[i] = string.split("time")[0] + " " + CoolUtil.difficultyFromInt(rep.replay.songDiff).toUpperCase();
         }
 
         if (controlsStrings.length == 0)
@@ -153,13 +153,6 @@ class LoadReplayState extends MusicBeatState
 
 					// adjusting the song name to be compatible
 					var songFormat = StringTools.replace(PlayState.rep.replay.songName, " ", "-");
-					switch (songFormat) {
-						case 'Dad-Battle': songFormat = 'Dadbattle';
-						case 'Philly-Nice': songFormat = 'Philly';
-						// Replay v1.0 support
-						case 'dad-battle': songFormat = 'Dadbattle';
-						case 'philly-nice': songFormat = 'Philly';
-					}
 
 					var poop:String = Highscore.formatSong(songFormat, PlayState.rep.replay.songDiff);
 
@@ -167,7 +160,7 @@ class LoadReplayState extends MusicBeatState
 					PlayState.isStoryMode = false;
 					PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
 					PlayState.storyWeek = getWeekNumbFromSong(PlayState.rep.replay.songName);
-					LoadingState.loadAndSwitchState(new PlayState());
+					FlxG.switchState(new PlayState());
 				}
 				else
 				{
@@ -181,10 +174,6 @@ class LoadReplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		#if !switch
-		// NGio.logEvent('Fresh');
-		#end
-		
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
 		curSelected += change;

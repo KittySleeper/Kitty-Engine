@@ -1,137 +1,179 @@
 package;
 
+import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
-import openfl.utils.AssetType;
-import openfl.utils.Assets as OpenFlAssets;
+import haxe.Json;
+import openfl.media.Sound;
+import openfl.display.BitmapData;
+import sys.io.File;
+import sys.FileSystem;
 
 class Paths
 {
-	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
+	static var epicCacheFromOhio:Map<String, Dynamic> = [];
 
-	static var currentLevel:String;
+	inline public static var SOUND_EXT:String = #if web "mp3" #else "ogg" #end;
+	public static var ASSETS_PATH:Array<String> = ["assets"];
 
-	static public function setCurrentLevel(name:String)
+	inline static public function sound(key:String)
 	{
-		currentLevel = name.toLowerCase();
-	}
-
-	static function getPath(file:String, type:AssetType, library:Null<String>)
-	{
-		if (library != null)
-			return getLibraryPath(file, library);
-
-		if (currentLevel != null)
+		if (epicCacheFromOhio.exists('sounds/$key.$SOUND_EXT'))
 		{
-			var levelPath = getLibraryPathForce(file, currentLevel);
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
-
-			levelPath = getLibraryPathForce(file, "shared");
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
+			return epicCacheFromOhio.get('sounds/$key.$SOUND_EXT');
 		}
-
-		return getPreloadPath(file);
+		else
+		{
+			var epicSound:Sound = Sound.fromFile(rawFile('sounds/$key.$SOUND_EXT'));
+			epicCacheFromOhio.set('sounds/$key.$SOUND_EXT', epicSound);
+			return epicSound;
+		}
 	}
 
-	static public function getLibraryPath(file:String, library = "preload")
+	inline static public function soundRandom(key:String, min:Int, max:Int)
+		return sound('$key${FlxG.random.int(min, max)}');
+
+	inline static public function music(key:String)
 	{
-		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
+		if (epicCacheFromOhio.exists('music/$key.$SOUND_EXT'))
+		{
+			return epicCacheFromOhio.get('music/$key.$SOUND_EXT');
+		}
+		else
+		{
+			var epicMusic:Sound = Sound.fromFile(rawFile('music/$key.$SOUND_EXT'));
+			epicCacheFromOhio.set('music/$key.$SOUND_EXT', epicMusic);
+			return epicMusic;
+		}
 	}
 
-	inline static function getLibraryPathForce(file:String, library:String)
+	inline static public function inst(key:String)
 	{
-		return '$library:assets/$library/$file';
+		var songLowercase = StringTools.replace(key, " ", "-").toLowerCase();
+
+		if (epicCacheFromOhio.exists('songs/$songLowercase/Inst.$SOUND_EXT'))
+		{
+			return epicCacheFromOhio.get('songs/$songLowercase/Inst.$SOUND_EXT');
+		}
+		else
+		{
+			var epicInst:Sound = Sound.fromFile(rawFile('songs/$songLowercase/Inst.$SOUND_EXT'));
+			epicCacheFromOhio.set('songs/$songLowercase/Inst.$SOUND_EXT', epicInst);
+			return epicInst;
+		}
 	}
 
-	inline static function getPreloadPath(file:String)
+	inline static public function voices(key:String)
 	{
-		return 'assets/$file';
+		var songLowercase = StringTools.replace(key, " ", "-").toLowerCase();
+
+		if (epicCacheFromOhio.exists('songs/$songLowercase/Voices.$SOUND_EXT'))
+		{
+			return epicCacheFromOhio.get('songs/$songLowercase/Voices.$SOUND_EXT');
+		}
+		else
+		{
+			var epicVoices:Sound = Sound.fromFile(rawFile('songs/$songLowercase/Voices.$SOUND_EXT'));
+			epicCacheFromOhio.set('songs/$songLowercase/Voices.$SOUND_EXT', epicVoices);
+			return epicVoices;
+		}
 	}
 
-	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
+	inline static public function image(key:String)
 	{
-		return getPath(file, type, library);
+		if (epicCacheFromOhio.exists('images/$key.png'))
+		{
+			return FlxGraphic.fromGraphic(epicCacheFromOhio.get('images/$key.png'));
+		}
+		else
+		{
+			var epicImage:FlxGraphic = FlxGraphic.fromBitmapData(BitmapData.fromFile(rawFile('images/$key.png'))); //, true, null, false
+			epicCacheFromOhio.set('images/$key.png', epicImage);
+			epicImage.persist = true;
+			return epicImage;
+		}
 	}
 
-	inline static public function lua(key:String,?library:String)
-	{
-		return getPath('data/$key.lua', TEXT, library);
-	}
+	inline static public function getSparrowAtlas(key:String)
+		return FlxAtlasFrames.fromSparrow(image(key), xml('images/$key'));
 
-	inline static public function luaImage(key:String, ?library:String)
-	{
-		return getPath('data/$key.png', IMAGE, library);
-	}
+	inline static public function getPackerAtlas(key:String)
+		return FlxAtlasFrames.fromSpriteSheetPacker(image(key), fileData('images/$key.txt'));
 
-	inline static public function txt(key:String, ?library:String)
-	{
-		return getPath('data/$key.txt', TEXT, library);
-	}
+	inline static public function xml(key:String)
+		return fileData('$key.xml');
 
-	inline static public function xml(key:String, ?library:String)
-	{
-		return getPath('data/$key.xml', TEXT, library);
-	}
+	inline static public function txt(key:String)
+		return fileData('$key.txt');
 
-	inline static public function json(key:String, ?library:String)
-	{
-		return getPath('data/$key.json', TEXT, library);
-	}
+	inline static public function json(key:String)
+		return Json.parse(fileData('$key.json'));
 
-	static public function sound(key:String, ?library:String)
-	{
-		return getPath('sounds/$key.$SOUND_EXT', SOUND, library);
-	}
+	inline static public function lua(key:String)
+		return fileData('$key.lua');
 
-	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
-	{
-		return sound(key + FlxG.random.int(min, max), library);
-	}
-
-	inline static public function music(key:String, ?library:String)
-	{
-		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
-	}
-
-	inline static public function voices(song:String)
-	{
-		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
-			switch (songLowercase) {
-				case 'dad-battle': songLowercase = 'dadbattle';
-				case 'philly-nice': songLowercase = 'philly';
-			}
-		return 'songs:assets/songs/${songLowercase}/Voices.$SOUND_EXT';
-	}
-
-	inline static public function inst(song:String)
-	{
-		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
-			switch (songLowercase) {
-				case 'dad-battle': songLowercase = 'dadbattle';
-				case 'philly-nice': songLowercase = 'philly';
-			}
-		return 'songs:assets/songs/${songLowercase}/Inst.$SOUND_EXT';
-	}
-
-	inline static public function image(key:String, ?library:String)
-	{
-		return getPath('images/$key.png', IMAGE, library);
-	}
+	inline static public function hx(key:String)
+		return fileData('$key.hx');
 
 	inline static public function font(key:String)
+		return rawFile('fonts/$key');
+
+	inline static public function fileData(key:String)
+		return Paths.exists(key) ? File.getContent(rawFile(key)) : null;
+
+	static public function exists(key:String):Bool
 	{
-		return 'assets/fonts/$key';
+		#if sys
+		for (path in ASSETS_PATH)
+		{
+			if (FileSystem.exists('$path/$key'))
+				return true;
+		}
+		return false;
+		#else
+		return true;
+		#end
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String)
+	static public function rawFile(key:String):String
 	{
-		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
+		for (path in ASSETS_PATH)
+		{
+			var fullPath = '$path/$key';
+
+			#if sys
+			if (FileSystem.exists(fullPath))
+				return fullPath;
+			#end
+		}
+
+		return 'assets/$key';
 	}
 
-	inline static public function getPackerAtlas(key:String, ?library:String)
+	inline static public function dumpCache():Void
 	{
-		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
+		for (key => value in epicCacheFromOhio)
+		{
+			if (Std.isOfType(value, BitmapData))
+			{
+				cast(value, BitmapData).dispose();
+			}
+
+			if (Std.isOfType(value, FlxGraphic))
+			{
+				cast(value, FlxGraphic).destroy();
+				cast(value, FlxGraphic).dump();
+			}
+
+			if (Std.isOfType(value, FlxAtlasFrames))
+			{
+				cast(value, FlxAtlasFrames).destroy();
+			}
+		}
+		epicCacheFromOhio.clear();
+
+		#if cpp
+		cpp.vm.Gc.run(true);
+		#end
 	}
 }

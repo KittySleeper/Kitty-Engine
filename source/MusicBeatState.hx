@@ -1,8 +1,6 @@
 package;
 
-#if windows
-import Discord.DiscordClient;
-#end
+
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import openfl.Lib;
@@ -28,9 +26,6 @@ class MusicBeatState extends FlxUIState
 	override function create()
 	{
 		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
-
-		if (transIn != null)
-			trace('reg ' + transIn.region);
 
 		super.create();
 	}

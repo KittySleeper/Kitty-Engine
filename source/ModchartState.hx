@@ -47,7 +47,7 @@ class ModchartState
 				{
 					Application.current.window.alert("LUA ERROR:\n" + p + "\nhaxe things: " + e,"Kade Engine Modcharts");
 					lua = null;
-					LoadingState.loadAndSwitchState(new MainMenuState());
+					FlxG.switchState(new MainMenuState());
 				}
 			// trace('err: ' + e);
 		}
@@ -210,20 +210,20 @@ class ModchartState
 		{
 			case 'boyfriend':
                 @:privateAccess
-				return PlayState.boyfriend;
+				return PlayState.instance.boyfriend;
 			case 'girlfriend':
                 @:privateAccess
-				return PlayState.gf;
+				return PlayState.instance.gf;
 			case 'dad':
                 @:privateAccess
-				return PlayState.dad;
+				return PlayState.instance.dad;
 		}
 		// lua objects or what ever
 		if (luaSprites.get(id) == null)
 		{
 			if (Std.parseInt(id) == null)
 				return Reflect.getProperty(PlayState.instance,id);
-			return PlayState.PlayState.strumLineNotes.members[Std.parseInt(id)];
+			return PlayState.PlayState.instance.strumLineNotes.members[Std.parseInt(id)];
 		}
 		return luaSprites.get(id);
 	}
@@ -236,20 +236,20 @@ class ModchartState
 	public static var luaSprites:Map<String,FlxSprite> = [];
 
 	function changeDadCharacter(id:String)
-	{				var olddadx = PlayState.dad.x;
-					var olddady = PlayState.dad.y;
-					PlayState.instance.removeObject(PlayState.dad);
-					PlayState.dad = new Character(olddadx, olddady, id);
-					PlayState.instance.addObject(PlayState.dad);
+	{				var olddadx = PlayState.instance.dad.x;
+					var olddady = PlayState.instance.dad.y;
+					PlayState.instance.removeObject(PlayState.instance.dad);
+					PlayState.instance.dad = new Character(olddadx, olddady, id);
+					PlayState.instance.addObject(PlayState.instance.dad);
 					PlayState.instance.iconP2.animation.play(id);
 	}
 
 	function changeBoyfriendCharacter(id:String)
-	{				var oldboyfriendx = PlayState.boyfriend.x;
-					var oldboyfriendy = PlayState.boyfriend.y;
-					PlayState.instance.removeObject(PlayState.boyfriend);
-					PlayState.boyfriend = new Boyfriend(oldboyfriendx, oldboyfriendy, id);
-					PlayState.instance.addObject(PlayState.boyfriend);
+	{				var oldboyfriendx = PlayState.instance.boyfriend.x;
+					var oldboyfriendy = PlayState.instance.boyfriend.y;
+					PlayState.instance.removeObject(PlayState.instance.boyfriend);
+					PlayState.instance.boyfriend = new Boyfriend(oldboyfriendx, oldboyfriendy, id);
+					PlayState.instance.addObject(PlayState.instance.boyfriend);
 					PlayState.instance.iconP2.animation.play(id);
 	}
 
@@ -258,10 +258,6 @@ class ModchartState
 		#if sys
 		// pre lowercasing the song name (makeAnimatedLuaSprite)
 		var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
-		switch (songLowercase) {
-			case 'dad-battle': songLowercase = 'dadbattle';
-			case 'philly-nice': songLowercase = 'philly';
-		}
 
 		var data:BitmapData = BitmapData.fromFile(Sys.getCwd() + "assets/data/" + songLowercase + '/' + spritePath + ".png");
 
@@ -292,10 +288,6 @@ class ModchartState
 		#if sys
 		// pre lowercasing the song name (makeLuaSprite)
 		var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
-		switch (songLowercase) {
-			case 'dad-battle': songLowercase = 'dadbattle';
-			case 'philly-nice': songLowercase = 'philly';
-		}
 
 		var data:BitmapData = BitmapData.fromFile(Sys.getCwd() + "assets/data/" + songLowercase + '/' + spritePath + ".png");
 
@@ -325,16 +317,16 @@ class ModchartState
         {
             if (drawBehind)
             {
-                PlayState.instance.removeObject(PlayState.gf);
-                PlayState.instance.removeObject(PlayState.boyfriend);
-                PlayState.instance.removeObject(PlayState.dad);
+                PlayState.instance.removeObject(PlayState.instance.gf);
+                PlayState.instance.removeObject(PlayState.instance.boyfriend);
+                PlayState.instance.removeObject(PlayState.instance.dad);
             }
             PlayState.instance.addObject(sprite);
             if (drawBehind)
             {
-                PlayState.instance.addObject(PlayState.gf);
-                PlayState.instance.addObject(PlayState.boyfriend);
-                PlayState.instance.addObject(PlayState.dad);
+                PlayState.instance.addObject(PlayState.instance.gf);
+                PlayState.instance.addObject(PlayState.instance.boyfriend);
+                PlayState.instance.addObject(PlayState.instance.dad);
             }
         }
 		#end
@@ -362,10 +354,6 @@ class ModchartState
 
 				// pre lowercasing the song name (new)
 				var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
-				switch (songLowercase) {
-					case 'dad-battle': songLowercase = 'dadbattle';
-					case 'philly-nice': songLowercase = 'philly';
-				}
 
 				var result = LuaL.dofile(lua, Paths.lua(songLowercase + "/modchart")); // execute le file
 	
@@ -373,7 +361,7 @@ class ModchartState
 				{
 					Application.current.window.alert("LUA COMPILE ERROR:\n" + Lua.tostring(lua,result),"Kade Engine Modcharts");
 					lua = null;
-					LoadingState.loadAndSwitchState(new MainMenuState());
+					FlxG.switchState(new MainMenuState());
 				}
 
 				// get some fukin globals up in here bois
@@ -439,41 +427,6 @@ class ModchartState
 				});
 	
 				// hud/camera
-
-				Lua_helper.add_callback(lua,"initBackgroundVideo", function(videoName:String) {
-					trace('playing assets/videos/' + videoName + '.webm');
-					PlayState.instance.backgroundVideo("assets/videos/" + videoName + ".webm");
-				});
-
-				Lua_helper.add_callback(lua,"pauseVideo", function() {
-					if (!GlobalVideo.get().paused)
-						GlobalVideo.get().pause();
-				});
-
-				Lua_helper.add_callback(lua,"resumeVideo", function() {
-					if (GlobalVideo.get().paused)
-						GlobalVideo.get().pause();
-				});
-				
-				Lua_helper.add_callback(lua,"restartVideo", function() {
-					GlobalVideo.get().restart();
-				});
-
-				Lua_helper.add_callback(lua,"getVideoSpriteX", function() {
-					return PlayState.instance.videoSprite.x;
-				});
-
-				Lua_helper.add_callback(lua,"getVideoSpriteY", function() {
-					return PlayState.instance.videoSprite.y;
-				});
-
-				Lua_helper.add_callback(lua,"setVideoSpritePos", function(x:Int,y:Int) {
-					PlayState.instance.videoSprite.setPosition(x,y);
-				});
-				
-				Lua_helper.add_callback(lua,"setVideoSpriteScale", function(scale:Float) {
-					PlayState.instance.videoSprite.setGraphicSize(Std.int(PlayState.instance.videoSprite.width * scale));
-				});
 	
 				Lua_helper.add_callback(lua,"setHudAngle", function (x:Float) {
 					PlayState.instance.camHUD.angle = x;
@@ -565,8 +518,8 @@ class ModchartState
 
 				Lua_helper.add_callback(lua,"getRenderedNoteCalcX", function(id:Int) {
 					if (PlayState.instance.notes.members[id].mustPress)
-						return PlayState.playerStrums.members[Math.floor(Math.abs(PlayState.instance.notes.members[id].noteData))].x;
-					return PlayState.strumLineNotes.members[Math.floor(Math.abs(PlayState.instance.notes.members[id].noteData))].x;
+						return PlayState.instance.playerStrums.members[Math.floor(Math.abs(PlayState.instance.notes.members[id].noteData))].x;
+					return PlayState.instance.strumLineNotes.members[Math.floor(Math.abs(PlayState.instance.notes.members[id].noteData))].x;
 				});
 
 				Lua_helper.add_callback(lua,"anyNotes", function() {
@@ -892,9 +845,8 @@ class ModchartState
 
 				// default strums
 
-				for (i in 0...PlayState.strumLineNotes.length) {
-					var member = PlayState.strumLineNotes.members[i];
-					trace(PlayState.strumLineNotes.members[i].x + " " + PlayState.strumLineNotes.members[i].y + " " + PlayState.strumLineNotes.members[i].angle + " | strum" + i);
+				for (i in 0...PlayState.instance.strumLineNotes.length) {
+					var member = PlayState.instance.strumLineNotes.members[i];
 					//setVar("strum" + i + "X", Math.floor(member.x));
 					setVar("defaultStrum" + i + "X", Math.floor(member.x));
 					//setVar("strum" + i + "Y", Math.floor(member.y));

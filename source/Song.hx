@@ -1,9 +1,13 @@
 package;
 
+import moonchart.formats.fnf.legacy.FNFPsych;
+import moonchart.backend.FormatDetector;
+
 import Section.SwagSection;
 import haxe.Json;
-import haxe.format.JsonParser;
 import lime.utils.Assets;
+
+import sys.FileSystem;
 
 using StringTools;
 
@@ -44,44 +48,26 @@ class Song
 		this.bpm = bpm;
 	}
 
-	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
+	public static function loadFromJson(jsonInput:String, ?folder:String, ?diff:String = "normal"):SwagSong
 	{
-		trace(jsonInput);
-
-		// pre lowercasing the folder name
-		var folderLowercase = StringTools.replace(folder, " ", "-").toLowerCase();
-		switch (folderLowercase) {
-			case 'dad-battle': folderLowercase = 'dadbattle';
-			case 'philly-nice': folderLowercase = 'philly';
-		}
-		
+		var folderLowercase = StringTools.replace(folder, " ", "-").toLowerCase();	
 		trace('loading ' + folderLowercase + '/' + jsonInput.toLowerCase());
 
-		var rawJson = Assets.getText(Paths.json(folderLowercase + '/' + jsonInput.toLowerCase())).trim();
-
-		while (!rawJson.endsWith("}"))
+		if (Paths.exists("data/songs/" + folderLowercase + '/chart.json'))
 		{
-			rawJson = rawJson.substr(0, rawJson.length - 1);
-			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
+			final fromFormatName = FormatDetector.findFormat([Paths.rawFile("data/songs/" + folderLowercase + '/chart.json'), Paths.rawFile("data/songs/" + folderLowercase + '/meta.json')]);
+			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
+			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/chart.json'), Paths.exists("data/songs/" + folderLowercase + '/meta.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta.json') : null, diff);
+
+			return cast new FNFPsych().fromFormat(fromFormat, diff).data.song;
+		} else {
+			final fromFormatName = FormatDetector.findFormat(Paths.rawFile("data/songs/" + folderLowercase + '/' + jsonInput.toLowerCase() + ".json"));
+			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
+
+			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/' + jsonInput.toLowerCase() + ".json"), Paths.exists("data/songs/" + folderLowercase + '/meta.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta.json') : null, diff);
+			
+			return cast new FNFPsych().fromFormat(fromFormat, diff).data.song;
 		}
-
-		// FIX THE CASTING ON WINDOWS/NATIVE
-		// Windows???
-		// trace(songData);
-
-		// trace('LOADED FROM JSON: ' + songData.notes);
-		/* 
-			for (i in 0...songData.notes.length)
-			{
-				trace('LOADED FROM JSON: ' + songData.notes[i].sectionNotes);
-				// songData.notes[i].sectionNotes = songData.notes[i].sectionNotes
-			}
-
-				daNotes = songData.notes;
-				daSong = songData.song;
-				daBpm = songData.bpm; */
-
-		return parseJSONshit(rawJson);
 	}
 
 	public static function parseJSONshit(rawJson:String):SwagSong

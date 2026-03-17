@@ -7,7 +7,6 @@ import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 #if windows
-import Discord.DiscordClient;
 import sys.thread.Thread;
 #end
 
@@ -40,16 +39,11 @@ class GameplayCustomizeState extends MusicBeatState
     private var camHUD:FlxCamera;
     
     public override function create() {
-        #if windows
-		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Customizing Gameplay", null);
-		#end
-
-        sick = new FlxSprite().loadGraphic(Paths.image('sick','shared'));
+        sick = new FlxSprite().loadGraphic(Paths.image('sick'));
         sick.scrollFactor.set();
-        background = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback','shared'));
-        curt = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains','shared'));
-        front = new FlxSprite(-650, 600).loadGraphic(Paths.image('stagefront','shared'));
+        background = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
+        curt = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
+        front = new FlxSprite(-650, 600).loadGraphic(Paths.image('stagefront'));
 
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
@@ -207,7 +201,7 @@ class GameplayCustomizeState extends MusicBeatState
             {
                 // FlxG.log.add(i);
                 var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
-                babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets', 'shared');
+                babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets');
                 babyArrow.animation.addByPrefix('green', 'arrowUP');
                 babyArrow.animation.addByPrefix('blue', 'arrowDOWN');
                 babyArrow.animation.addByPrefix('purple', 'arrowLEFT');

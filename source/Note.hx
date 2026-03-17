@@ -23,6 +23,7 @@ class Note extends FlxSprite
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
+	public var nextNote:Note = null;
 	public var modifiedByLua:Bool = false;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -37,7 +38,7 @@ class Note extends FlxSprite
 
 	public var rating:String = "shit";
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false)
 	{
 		super();
 
@@ -50,7 +51,10 @@ class Note extends FlxSprite
 		x += 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
-		this.strumTime = Math.round(strumTime);
+		if (inCharter)
+			this.strumTime = strumTime;
+		else 
+			this.strumTime = Math.round(strumTime);
 
 		if (this.strumTime < 0 )
 			this.strumTime = 0;
@@ -69,7 +73,7 @@ class Note extends FlxSprite
 		switch (noteTypeCheck)
 		{
 			case 'pixel':
-				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels','week6'), true, 17, 17);
+				loadGraphic(Paths.image('pixelUI/arrows-pixels'), true, 17, 17);
 
 				animation.add('greenScroll', [6]);
 				animation.add('redScroll', [7]);
@@ -78,7 +82,7 @@ class Note extends FlxSprite
 
 				if (isSustainNote)
 				{
-					loadGraphic(Paths.image('weeb/pixelUI/arrowEnds','week6'), true, 7, 6);
+					loadGraphic(Paths.image('pixelUI/arrowEnds'), true, 7, 6);
 
 					animation.add('purpleholdend', [4]);
 					animation.add('greenholdend', [6]);
@@ -140,7 +144,7 @@ class Note extends FlxSprite
 		if (FlxG.save.data.downscroll && sustainNote) 
 			flipY = true;
 
-		if (isSustainNote && prevNote != null)
+		if (isSustainNote && prevNote != null && prevNote != this)
 		{
 			noteScore * 0.2;
 			alpha = 0.6;
@@ -189,6 +193,14 @@ class Note extends FlxSprite
 				// prevNote.setGraphicSize();
 			}
 		}
+	}
+
+	public function isSustainStart():Bool {
+		return isSustainNote && (prevNote == null || prevNote == this || !prevNote.isSustainNote);
+	}
+
+	public function isSustainEnd():Bool {
+		return isSustainNote && (nextNote == null || !nextNote.isSustainNote);
 	}
 
 	override function update(elapsed:Float)
