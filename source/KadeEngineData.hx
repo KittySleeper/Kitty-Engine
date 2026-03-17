@@ -108,5 +108,10 @@ class KadeEngineData
 		Main.watermarks = FlxG.save.data.watermark;
 
 		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
+
+		if (FlxG.save.data.modSelected == null)
+			FlxG.save.data.modSelected = "Base Game";
+
+		Paths.ASSETS_PATH = ["mods/" + FlxG.save.data.modSelected, "assets"];
 	}
 }

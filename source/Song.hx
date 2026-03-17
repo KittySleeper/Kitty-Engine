@@ -65,8 +65,11 @@ class Song
 			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
 
 			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/' + jsonInput.toLowerCase() + ".json"), Paths.exists("data/songs/" + folderLowercase + '/meta.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta.json') : null, diff);
+
+			var epicSong:SwagSong = cast new FNFPsych().fromFormat(fromFormat, diff).data.song;
+			epicSong.stage = fromFormat.data.song.stage; //why the fuck does this happen what...?
 			
-			return cast new FNFPsych().fromFormat(fromFormat, diff).data.song;
+			return epicSong;
 		}
 	}
 

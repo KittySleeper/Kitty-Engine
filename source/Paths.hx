@@ -150,6 +150,24 @@ class Paths
 		return 'assets/$key';
 	}
 
+	static public function readDirectory(key:String):Array<String>
+	{
+		if (exists(key)) {
+			#if sys
+			for (path in ASSETS_PATH)
+			{
+				return FileSystem.readDirectory('$path/$key');
+			}
+
+			return [];
+			#else
+			return [];
+			#end
+		} else {
+			return [];
+		}
+	}
+
 	inline static public function dumpCache():Void
 	{
 		for (key => value in epicCacheFromOhio)
@@ -161,8 +179,8 @@ class Paths
 
 			if (Std.isOfType(value, FlxGraphic))
 			{
-				cast(value, FlxGraphic).destroy();
 				cast(value, FlxGraphic).dump();
+				cast(value, FlxGraphic).destroy();
 			}
 
 			if (Std.isOfType(value, FlxAtlasFrames))

@@ -21,7 +21,7 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'mods', 'options'];
 
 	var newGaming:FlxText;
 	var newGaming2:FlxText;
@@ -72,12 +72,11 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
-
 		for (i in 0...optionShit.length)
 		{
 			var menuItem:FlxSprite = new FlxSprite(0, FlxG.height * 1.6);
-			menuItem.frames = tex;
+			menuItem.frames = Paths.getSparrowAtlas('FNF_main_menu_assets');
+			menuItem.setGraphicSize(Std.int(menuItem.width * 1.35));
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
@@ -162,49 +161,42 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate')
-				{
-					fancyOpenURL("https://ninja-muffin24.itch.io/funkin");
-				}
-				else
-				{
-					selectedSomethin = true;
-					FlxG.sound.play(Paths.sound('confirmMenu'));
-					
-					if (FlxG.save.data.flashing)
-						FlxFlicker.flicker(magenta, 1.1, 0.15, false);
+				selectedSomethin = true;
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				
+				if (FlxG.save.data.flashing)
+					FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
-					menuItems.forEach(function(spr:FlxSprite)
+				menuItems.forEach(function(spr:FlxSprite)
+				{
+					if (curSelected != spr.ID)
 					{
-						if (curSelected != spr.ID)
+						FlxTween.tween(spr, {alpha: 0}, 1.3, {
+							ease: FlxEase.quadOut,
+							onComplete: function(twn:FlxTween)
+							{
+								spr.kill();
+							}
+						});
+					}
+					else
+					{
+						if (FlxG.save.data.flashing)
 						{
-							FlxTween.tween(spr, {alpha: 0}, 1.3, {
-								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
-									spr.kill();
-								}
+							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+							{
+								goToState();
 							});
 						}
 						else
 						{
-							if (FlxG.save.data.flashing)
+							new FlxTimer().start(1, function(tmr:FlxTimer)
 							{
-								FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
-								{
-									goToState();
-								});
-							}
-							else
-							{
-								new FlxTimer().start(1, function(tmr:FlxTimer)
-								{
-									goToState();
-								});
-							}
+								goToState();
+							});
 						}
-					});
-				}
+					}
+				});
 			}
 		}
 
@@ -226,6 +218,8 @@ class MainMenuState extends MusicBeatState
 				FlxG.switchState(new StoryMenuState());
 			case 'freeplay':
 				FlxG.switchState(new FreeplayState());
+			case 'mods':
+				FlxG.switchState(new ModsMenuState());
 			case 'options':
 				FlxG.switchState(new OptionsMenu());
 		}
