@@ -47,34 +47,45 @@ class Paths
 		}
 	}
 
-	inline static public function inst(key:String)
+	inline static public function inst(key:String, variant:String)
 	{
 		var songLowercase = StringTools.replace(key, " ", "-").toLowerCase();
 
-		if (epicCacheFromOhio.exists('songs/$songLowercase/Inst.$SOUND_EXT'))
+		if (exists('songs/$songLowercase/Inst-${variant.toLowerCase()}.$SOUND_EXT'))
+			variant = "-" + variant.toLowerCase();
+		else
+			variant = "";
+
+		if (epicCacheFromOhio.exists('songs/$songLowercase/Inst$variant.$SOUND_EXT'))
 		{
-			return epicCacheFromOhio.get('songs/$songLowercase/Inst.$SOUND_EXT');
+			return epicCacheFromOhio.get('songs/$songLowercase/Inst$variant.$SOUND_EXT');
 		}
 		else
 		{
-			var epicInst:Sound = Sound.fromFile(rawFile('songs/$songLowercase/Inst.$SOUND_EXT'));
-			epicCacheFromOhio.set('songs/$songLowercase/Inst.$SOUND_EXT', epicInst);
+			var epicInst:Sound = Sound.fromFile(rawFile('songs/$songLowercase/Inst$variant.$SOUND_EXT'));
+			epicCacheFromOhio.set('songs/$songLowercase/Inst$variant.$SOUND_EXT', epicInst);
 			return epicInst;
 		}
 	}
 
-	inline static public function voices(key:String)
+	inline static public function voices(key:String, character:String, variant:String)
 	{
 		var songLowercase = StringTools.replace(key, " ", "-").toLowerCase();
+		character = "-" + character.toLowerCase();
 
-		if (epicCacheFromOhio.exists('songs/$songLowercase/Voices.$SOUND_EXT'))
+		if (exists('songs/$songLowercase/Voices$character-${variant.toLowerCase()}.$SOUND_EXT'))
+			variant = "-" + variant.toLowerCase();
+		else
+			variant = "";
+
+		if (epicCacheFromOhio.exists('songs/$songLowercase/Voices$character$variant.$SOUND_EXT'))
 		{
-			return epicCacheFromOhio.get('songs/$songLowercase/Voices.$SOUND_EXT');
+			return epicCacheFromOhio.get('songs/$songLowercase/Voices$character$variant.$SOUND_EXT');
 		}
 		else
 		{
-			var epicVoices:Sound = Sound.fromFile(rawFile('songs/$songLowercase/Voices.$SOUND_EXT'));
-			epicCacheFromOhio.set('songs/$songLowercase/Voices.$SOUND_EXT', epicVoices);
+			var epicVoices:Sound = Sound.fromFile(rawFile('songs/$songLowercase/Voices$character$variant.$SOUND_EXT'));
+			epicCacheFromOhio.set('songs/$songLowercase/Voices$character$variant.$SOUND_EXT', epicVoices);
 			return epicVoices;
 		}
 	}

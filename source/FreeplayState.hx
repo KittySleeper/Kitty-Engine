@@ -14,6 +14,7 @@ class FreeplayState extends MusicBeatState
 {
 	var songs:Array<SongMetadata> = [];
 
+	var bg:FlxSprite;
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 1;
@@ -32,15 +33,13 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		var initSonglist = CoolUtil.coolTextFile('data/freeplaySonglist');
+		var songList:Array<Dynamic> = Paths.json("data/freeplaySongList").songs;
 
-		for (i in 0...initSonglist.length)
-		{
-			var data:Array<String> = initSonglist[i].split(':');
-			songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
-		}
+		for (song in songList)
+			addSong(song.name, song.storyWeek, song.icon, FlxColor.fromString(song.color), song.difficulties);
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg.color = songs[0].songColor;
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -87,29 +86,14 @@ class FreeplayState extends MusicBeatState
 		super.create();
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
-	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter));
-	}
-
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
-	{
-		if (songCharacters == null)
-			songCharacters = ['dad'];
-
-		var num:Int = 0;
-		for (song in songs)
-		{
-			addSong(song, weekNum, songCharacters[num]);
-
-			if (songCharacters.length != 1)
-				num++;
-		}
-	}
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor, songDifficulties:Array<Dynamic>)
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, songColor, songDifficulties));
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		bg.color = FlxColor.interpolate(bg.color, songs[curSelected].songColor, 0.12);
 
 		if (FlxG.sound.music.volume < 0.7)
 		{
@@ -133,94 +117,70 @@ class FreeplayState extends MusicBeatState
 		if (gamepad != null)
 		{
 			if (gamepad.justPressed.DPAD_UP)
-			{
 				changeSelection(-1);
-			}
 			if (gamepad.justPressed.DPAD_DOWN)
-			{
 				changeSelection(1);
-			}
 			if (gamepad.justPressed.DPAD_LEFT)
-			{
 				changeDiff(-1);
-			}
 			if (gamepad.justPressed.DPAD_RIGHT)
-			{
 				changeDiff(1);
-			}
 		}
 
 		if (upP)
-		{
 			changeSelection(-1);
-		}
 		if (downP)
-		{
 			changeSelection(1);
-		}
-
 		if (FlxG.keys.justPressed.LEFT)
 			changeDiff(-1);
 		if (FlxG.keys.justPressed.RIGHT)
 			changeDiff(1);
-
 		if (controls.BACK)
-		{
 			FlxG.switchState(new MainMenuState());
-		}
 
 		if (accepted)
 		{
 			// adjusting the song name to be compatible
 			var songFormat = StringTools.replace(songs[curSelected].songName, " ", "-");
-			
-			var poop:String = Highscore.formatSong(songFormat, curDifficulty);			
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName, "hard");
-			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
+
+			PlayState.SONG = Song.loadFromJson(songFormat, songs[curSelected].songDifficulties[curDifficulty].chartName, songs[curSelected].songDifficulties[curDifficulty].chartVariant);
+			PlayState.storyDifficulty = songs[curSelected].songDifficulties[curDifficulty].chartName;
+			PlayState.songVariant = songs[curSelected].songDifficulties[curDifficulty].chartVariant;
 			PlayState.storyWeek = songs[curSelected].week;
+			PlayState.isStoryMode = false;
 			FlxG.switchState(new PlayState());
 		}
 	}
 
 	function changeDiff(change:Int = 0)
 	{
-		curDifficulty += change;
-
-		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
-			curDifficulty = 0;
+		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, songs[curSelected].songDifficulties.length - 1);
+		trace(songs[curSelected].songDifficulties[curDifficulty], songs[curSelected].songDifficulties[curDifficulty].chartName);
 
 		var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
 		
 		#if !switch
-		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
-		combo = Highscore.getCombo(songHighscore, curDifficulty);
+		intendedScore = Highscore.getScore(songHighscore, songs[curSelected].songDifficulties[curDifficulty].chartName);
+		combo = Highscore.getCombo(songHighscore, songs[curSelected].songDifficulties[curDifficulty].chartName);
 		#end
 
-		diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+		diffText.text = songs[curSelected].songDifficulties[curDifficulty].chartName.toUpperCase();
 	}
 
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-		curSelected += change;
-
-		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
-			curSelected = 0;
+		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
+		changeDiff();
 
 		var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
 
 		#if !switch
-		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
-		combo = Highscore.getCombo(songHighscore, curDifficulty);
+		intendedScore = Highscore.getScore(songHighscore, songs[curSelected].songDifficulties[curDifficulty].chartName);
+		combo = Highscore.getCombo(songHighscore, songs[curSelected].songDifficulties[curDifficulty].chartName);
 		#end
 
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName, null), 0);
 
 		var bullShit:Int = 0;
 
@@ -249,11 +209,15 @@ class SongMetadata
 	public var songName:String = "";
 	public var week:Int = 0;
 	public var songCharacter:String = "";
+	public var songColor:FlxColor = FlxColor.WHITE;
+	public var songDifficulties:Array<Dynamic> = [];
 
-	public function new(song:String, week:Int, songCharacter:String)
+	public function new(song:String, week:Int, songCharacter:String, songColor:FlxColor, songDifficulties:Array<Dynamic>)
 	{
 		this.songName = song;
 		this.week = week;
 		this.songCharacter = songCharacter;
+		this.songColor = songColor;
+		this.songDifficulties = songDifficulties;
 	}
 }

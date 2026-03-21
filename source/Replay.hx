@@ -41,7 +41,7 @@ typedef ReplayJSON =
 	public var replayGameVer:String;
 	public var timestamp:Date;
 	public var songName:String;
-	public var songDiff:Int;
+	public var songDiff:String;
 	public var songNotes:Array<Dynamic>;
 	public var songJudgements:Array<String>;
 	public var noteSpeed:Float;
@@ -61,7 +61,7 @@ class Replay
 		this.path = path;
 		replay = {
 			songName: "No Song Found", 
-			songDiff: 1,
+			songDiff: "normal",
 			noteSpeed: 1.5,
 			isDownscroll: false,
 			songNotes: [],
@@ -76,11 +76,7 @@ class Replay
 	public static function LoadReplay(path:String):Replay
     {
 		var rep:Replay = new Replay(path);
-
 		rep.LoadFromJSON();
-
-		trace('basic replay data:\nSong Name: ' + rep.replay.songName + '\nSong Diff: ' + rep.replay.songDiff);
-
 		return rep;
 	}
 
@@ -117,7 +113,6 @@ class Replay
 	public function LoadFromJSON()
 	{
 		#if sys
-		trace('loading ' + Sys.getCwd() + 'assets/replays/' + path + ' replay...');
 		try
 		{
 			var repl:ReplayJSON = cast Json.parse(File.getContent(Sys.getCwd() + "assets/replays/" + path));

@@ -1,0 +1,215 @@
+{
+  "songs": [
+    {
+      "name": "Tutorial",
+      "icon": "gf",
+      "storyWeek": 0,
+      "color": "#9271fd",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Bopeebo",
+      "icon": "dad",
+      "storyWeek": 1,
+      "color": "#9271fd",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Fresh",
+      "icon": "dad",
+      "storyWeek": 1,
+      "color": "#9271fd",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" },
+        { "chartName": "erect", "chartVariant": "erect" },
+        { "chartName": "nightmare", "chartVariant": "erect" }
+      ]
+    },
+    {
+      "name": "Dad Battle",
+      "icon": "dad",
+      "storyWeek": 1,
+      "color": "#9271fd",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Spookeez",
+      "icon": "spooky",
+      "storyWeek": 2,
+      "color": "#223344",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "South",
+      "icon": "spooky",
+      "storyWeek": 2,
+      "color": "#223344",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Monster",
+      "icon": "monster",
+      "storyWeek": 2,
+      "color": "#223344",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Pico",
+      "icon": "pico",
+      "storyWeek": 3,
+      "color": "#941653",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Philly Nice",
+      "icon": "pico",
+      "storyWeek": 3,
+      "color": "#941653",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Blammed",
+      "icon": "pico",
+      "storyWeek": 3,
+      "color": "#941653",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Satin Panties",
+      "icon": "mom",
+      "storyWeek": 4,
+      "color": "#fc96d7",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "High",
+      "icon": "mom",
+      "storyWeek": 4,
+      "color": "#fc96d7",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "M.i.l.f",
+      "icon": "mom",
+      "storyWeek": 4,
+      "color": "#fc96d7",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Cocoa",
+      "icon": "parents",
+      "storyWeek": 5,
+      "color": "#a0d1ff",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Eggnog",
+      "icon": "parents",
+      "storyWeek": 5,
+      "color": "#a0d1ff",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Winter Horrorland",
+      "icon": "monster",
+      "storyWeek": 5,
+      "color": "#a0d1ff",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Senpai",
+      "icon": "senpai-pixel",
+      "storyWeek": 6,
+      "color": "#ff78bf",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Roses",
+      "icon": "senpai-pixel",
+      "storyWeek": 6,
+      "color": "#ff78bf",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Thorns",
+      "icon": "spirit-pixel",
+      "storyWeek": 6,
+      "color": "#ff78bf",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    }
+  ]
+}

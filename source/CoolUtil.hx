@@ -1,18 +1,13 @@
 package;
 
+import flixel.FlxG;
+import flixel.math.FlxMath;
 import lime.utils.Assets;
 
 using StringTools;
 
 class CoolUtil
 {
-	public static var difficultyArray:Array<String> = ['Easy', "Normal", "Hard"];
-
-	public static function difficultyFromInt(difficulty:Int):String
-	{
-		return difficultyArray[difficulty];
-	}
-
 	public static function coolTextFile(path:String):Array<String>
 	{
 		var daList:Array<String> = Paths.txt(path).trim().split('\n');
@@ -45,5 +40,10 @@ class CoolUtil
 			dumbArray.push(i);
 		}
 		return dumbArray;
+	}
+
+	public static function toTitleCase(input:String):String {
+		var re = ~/(\b\w)/g;
+		return re.map(input.toLowerCase(), r -> r.matched(0).toUpperCase());
 	}
 }

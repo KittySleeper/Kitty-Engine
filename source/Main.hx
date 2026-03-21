@@ -91,6 +91,10 @@ class Main extends Sprite
 		toggleFPS(FlxG.save.data.fps);
 		#end
 
+		#if html5
+		trace("HEY!, This Engine Is Not Intended For HTML5 And Many Features May Not Work Properly.");
+		#end
+
 		FlxG.signals.preStateSwitch.add(Paths.dumpCache);
 	}
 

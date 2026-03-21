@@ -1,14 +1,7 @@
 package;
 
-import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.math.FlxMath;
-import flixel.util.FlxColor;
-#if polymod
-import polymod.format.ParseRules.TargetSignatureElement;
-#end
 import PlayState;
 
 using StringTools;
@@ -31,10 +24,6 @@ class Note extends FlxSprite
 	public var noteScore:Float = 1;
 
 	public static var swagWidth:Float = 160 * 0.7;
-	public static var PURP_NOTE:Int = 0;
-	public static var GREEN_NOTE:Int = 2;
-	public static var BLUE_NOTE:Int = 1;
-	public static var RED_NOTE:Int = 3;
 
 	public var rating:String = "shit";
 
@@ -51,17 +40,13 @@ class Note extends FlxSprite
 		x += 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
-		if (inCharter)
-			this.strumTime = strumTime;
-		else 
-			this.strumTime = Math.round(strumTime);
 
-		if (this.strumTime < 0 )
+		this.strumTime = strumTime;
+
+		if (this.strumTime < 0)
 			this.strumTime = 0;
 
 		this.noteData = noteData;
-
-		var daStage:String = PlayState.curStage;
 
 		//defaults if no noteStyle was found in chart
 		var noteTypeCheck:String = 'normal';
@@ -190,7 +175,6 @@ class Note extends FlxSprite
 				else
 					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
-				// prevNote.setGraphicSize();
 			}
 		}
 	}

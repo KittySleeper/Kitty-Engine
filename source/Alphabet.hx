@@ -1,10 +1,7 @@
 package;
 
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
@@ -107,7 +104,6 @@ class Alphabet extends FlxSpriteGroup
 			}
 
 			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1)
-				// if (AlphaCharacter.alphabet.contains(character.toLowerCase()))
 			{
 				if (lastSprite != null)
 				{
@@ -121,14 +117,40 @@ class Alphabet extends FlxSpriteGroup
 				}
 
 				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0);
-				var letter:AlphaCharacter = new AlphaCharacter(xPos, 0);
+				var letter:AlphaCharacter = new AlphaCharacter(xPos, 0, isBold ? "bold" : "default"); //HEY THIS IS WHERE THE CHARACTERS GET CREATED, TODO: SOFTCODE THIS EVENTUALLY <3
 				listOAlphabets.add(letter);
 
 				if (isBold)
-					letter.createBold(character);
+				{
+                    if (AlphaCharacter.numbers.contains(character))
+					{
+						letter.createNumber(character);
+					}
+					else if (AlphaCharacter.symbols.contains(character))
+					{
+						letter.createSymbol(character);
+					}
+					else
+					{
+                        letter.createBold(character);
+                    }
+				}
 				else
 				{
-					letter.createLetter(character);
+					if (AlphaCharacter.numbers.contains(character))
+					{
+						letter.createNumber(character);
+					}
+					else if (AlphaCharacter.symbols.contains(character))
+					{
+						letter.createSymbol(character);
+					}
+					else
+					{
+						letter.createLetter(character);
+					}
+
+					letter.x += 90;
 				}
 
 				add(letter);
@@ -207,12 +229,23 @@ class Alphabet extends FlxSpriteGroup
 				// trace(_finalText.fastCodeAt(loopNum) + " " + _finalText.charAt(loopNum));
 
 				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0);
-				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti);
+				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti, isBold ? "bold" : "default"); //HEY THIS IS WHERE THE CHARACTERS GET CREATED, TODO: SOFTCODE THIS EVENTUALLY <3
 				listOAlphabets.add(letter);
 				letter.row = curRow;
 				if (isBold)
 				{
-					letter.createBold(splitWords[loopNum]);
+                    if (isNumber)
+					{
+						letter.createNumber(splitWords[loopNum]);
+					}
+					else if (isSymbol)
+					{
+						letter.createSymbol(splitWords[loopNum]);
+					}
+					else
+					{
+                        letter.createBold(splitWords[loopNum]);
+                    }
 				}
 				else
 				{
@@ -265,7 +298,7 @@ class Alphabet extends FlxSpriteGroup
 
 class AlphaCharacter extends FlxSprite
 {
-	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz";
+	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz.";
 
 	public static var numbers:String = "1234567890";
 
@@ -273,18 +306,17 @@ class AlphaCharacter extends FlxSprite
 
 	public var row:Int = 0;
 
-	public function new(x:Float, y:Float)
+	public function new(x:Float, y:Float, font:String = "default")
 	{
 		super(x, y);
-		var tex = Paths.getSparrowAtlas('alphabet');
+		var tex = Paths.getSparrowAtlas('fonts/$font');
 		frames = tex;
-
 		antialiasing = true;
 	}
 
 	public function createBold(letter:String)
 	{
-		animation.addByPrefix(letter, letter.toUpperCase() + " bold", 24);
+		animation.addByPrefix(letter, letter.toUpperCase(), 24);
 		animation.play(letter);
 		updateHitbox();
 	}

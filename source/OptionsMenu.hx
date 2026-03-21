@@ -233,7 +233,6 @@ class OptionsMenu extends MusicBeatState
 				{
 					if (currentSelectedCat.getOptions()[curSelected].press()) {
 						grpControls.members[curSelected].reType(currentSelectedCat.getOptions()[curSelected].getDisplay());
-						trace(currentSelectedCat.getOptions()[curSelected].getDisplay());
 					}
 				}
 				else
