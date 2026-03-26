@@ -135,7 +135,7 @@ class FreeplayState extends MusicBeatState
 		if (FlxG.keys.justPressed.RIGHT)
 			changeDiff(1);
 		if (controls.BACK)
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 
 		if (accepted)
 		{
@@ -147,7 +147,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.songVariant = songs[curSelected].songDifficulties[curDifficulty].chartVariant;
 			PlayState.storyWeek = songs[curSelected].week;
 			PlayState.isStoryMode = false;
-			FlxG.switchState(new PlayState());
+			FlxG.switchState(() -> new PlayState());
 		}
 	}
 

@@ -22,14 +22,7 @@ class NoteSplash extends FlxSprite {
         }
         updateHitbox();
 
-        animation.play(animNames[daNote.noteData]);
-
-        animation.finishCallback = (name:String) -> {
-            destroy();
-        };
-    }
-
-    override function update(elapsed:Float) {
-        super.update(elapsed);
+        animation.onFinish.add(name -> destroy());
+        animation.play(animNames[daNote.noteData], true);
     }
 }

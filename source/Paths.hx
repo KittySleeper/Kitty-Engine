@@ -183,7 +183,7 @@ class Paths
 
 			if (Std.isOfType(value, FlxGraphic))
 			{
-				cast(value, FlxGraphic).dump();
+				// cast(value, FlxGraphic).dump();
 				cast(value, FlxGraphic).destroy();
 			}
 

@@ -103,7 +103,7 @@ class LoadReplayState extends MusicBeatState
 		super.update(elapsed);
 
 			if (controls.BACK)
-				FlxG.switchState(new OptionsMenu());
+				FlxG.switchState(() -> new OptionsMenu());
 			if (controls.UP_P)
 				changeSelection(-1);
 			if (controls.DOWN_P)
@@ -123,7 +123,7 @@ class LoadReplayState extends MusicBeatState
 					PlayState.isStoryMode = false;
 					PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
 					PlayState.storyWeek = getWeekNumbFromSong(PlayState.rep.replay.songName);
-					FlxG.switchState(new PlayState());
+					FlxG.switchState(() -> new PlayState());
 				}
 				else
 				{

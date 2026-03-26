@@ -47,7 +47,7 @@ class ModchartState
 				{
 					Application.current.window.alert("LUA ERROR:\n" + p + "\nhaxe things: " + e,"Kade Engine Modcharts");
 					lua = null;
-					FlxG.switchState(new MainMenuState());
+					FlxG.switchState(() -> new MainMenuState());
 				}
 			// trace('err: ' + e);
 		}
@@ -129,7 +129,7 @@ class ModchartState
 
 
 	private function convert(v : Any, type : String) : Dynamic { // I didn't write this lol
-		if( Std.is(v, String) && type != null ) {
+		if( v is String && type != null ) {
 		var v : String = v;
 		if( type.substr(0, 4) == 'array' ) {
 			if( type.substr(4) == 'float' ) {
@@ -361,7 +361,7 @@ class ModchartState
 				{
 					Application.current.window.alert("LUA COMPILE ERROR:\n" + Lua.tostring(lua,result),"Kade Engine Modcharts");
 					lua = null;
-					FlxG.switchState(new MainMenuState());
+					FlxG.switchState(() -> new MainMenuState());
 				}
 
 				// get some fukin globals up in here bois
