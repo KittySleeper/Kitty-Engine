@@ -148,7 +148,7 @@ class PauseSubState extends MusicBeatSubstate
 					}
 					#end
 					
-					FlxG.switchState(new MainMenuState());
+					FlxG.switchState(() -> new MainMenuState());
 			}
 		}
 	}

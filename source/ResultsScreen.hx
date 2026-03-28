@@ -188,10 +188,10 @@ class ResultsScreen extends FlxSubState
             if (PlayState.isStoryMode)
             {
                 FlxG.sound.playMusic(Paths.music('freakyMenu'));
-                FlxG.switchState(new MainMenuState());
+                FlxG.switchState(() -> new MainMenuState());
             }
             else
-                FlxG.switchState(new FreeplayState());
+                FlxG.switchState(() -> new FreeplayState());
         }
 
         if (FlxG.keys.justPressed.F1)
@@ -215,7 +215,7 @@ class ResultsScreen extends FlxSubState
             PlayState.isStoryMode = false;
             PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
             PlayState.storyWeek = 0;
-            FlxG.switchState(new PlayState());
+            FlxG.switchState(() -> new PlayState());
         }
 
         if (FlxG.keys.justPressed.F2)
@@ -239,7 +239,7 @@ class ResultsScreen extends FlxSubState
             PlayState.isStoryMode = false;
             PlayState.storyDifficulty = PlayState.storyDifficulty;
             PlayState.storyWeek = 0;
-            FlxG.switchState(new PlayState());
+            FlxG.switchState(() -> new PlayState());
         }
 
 		super.update(elapsed);

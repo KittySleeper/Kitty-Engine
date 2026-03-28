@@ -580,7 +580,7 @@ class ReplayOption extends Option
 	public override function press():Bool
 	{
 		trace("switch");
-		FlxG.switchState(new LoadReplayState());
+		FlxG.switchState(() -> new LoadReplayState());
 		return false;
 	}
 
@@ -622,7 +622,7 @@ class CustomizeGameplay extends Option
 	public override function press():Bool
 	{
 		trace("switch");
-		FlxG.switchState(new GameplayCustomizeState());
+		FlxG.switchState(() -> new GameplayCustomizeState());
 		return false;
 	}
 
@@ -672,7 +672,7 @@ class OffsetMenu extends Option
 		PlayState.storyWeek = 0;
 		PlayState.offsetTesting = true;
 		trace('CUR WEEK' + PlayState.storyWeek);
-		FlxG.switchState(new PlayState());
+		FlxG.switchState(() -> new PlayState());
 		return false;
 	}
 

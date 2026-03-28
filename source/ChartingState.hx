@@ -874,7 +874,7 @@ class ChartingState extends MusicBeatState
 			PlayState.SONG = _song;
 			FlxG.sound.music.stop();
 			vocals.stop();
-			FlxG.switchState(new PlayState());
+			FlxG.switchState(() -> new PlayState());
 		}
 
 		if (FlxG.keys.justPressed.E)
@@ -1465,13 +1465,13 @@ class ChartingState extends MusicBeatState
 	function loadJson(song:String):Void
 	{
 		PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
-		FlxG.switchState(new ChartingState());
+		FlxG.switchState(() -> new ChartingState());
 	}
 
 	function loadAutosave():Void
 	{
 		PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
-		FlxG.switchState(new ChartingState());
+		FlxG.switchState(() -> new ChartingState());
 	}
 
 	function autosaveSong():Void

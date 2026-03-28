@@ -11,7 +11,7 @@
 				"$haxe-error",
 				"$haxe-trace"
 			],
-			"label": "lime: test windows -debug",
+			"label": "Compile Windows Debug",
 			"group": {
 				"kind": "build",
 				"isDefault": true

@@ -55,7 +55,7 @@ class ModsMenuState extends MusicBeatState
 			changeSelection(1);
 
 		if (controls.BACK)
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 
 		if (accepted)
 		{
