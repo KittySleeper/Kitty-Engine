@@ -27,6 +27,8 @@ class Main extends Sprite
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
+	public static var dumpNextState:Bool = true;
+
 	public static function main():Void
 	{
 		Lib.current.addChild(new Main());
@@ -95,7 +97,12 @@ class Main extends Sprite
 		trace("HEY!, This Engine Is Not Intended For HTML5 And Many Features May Not Work Properly.");
 		#end
 
-		FlxG.signals.preStateSwitch.add(Paths.dumpCache);
+		FlxG.signals.preStateSwitch.add(() -> {
+			if (dumpNextState)
+				Paths.dumpCache();
+			else
+				dumpNextState = true;
+		});
 	}
 
 	var game:FlxGame;

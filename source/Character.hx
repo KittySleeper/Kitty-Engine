@@ -34,7 +34,8 @@ class Character extends FlxSprite
 		var tex:FlxAtlasFrames;
 		antialiasing = true;
 
-		var charJson:Dynamic = Paths.json('data/characters/' + character) == null ? Paths.json('data/characters/bf') : Paths.json('data/characters/' + character);
+		var charJson:Dynamic = Paths.json('data/characters/' + character) == null ? Paths.json('data/characters/bf') : Paths.json('data/characters/'
+			+ character);
 		frames = Paths.getSparrowAtlas(charJson.image);
 		setGraphicSize(width * charJson.scale);
 		positionOffset = charJson.position;
@@ -45,8 +46,9 @@ class Character extends FlxSprite
 
 		var charAnims:Array<Dynamic> = [];
 		charAnims = charJson.animations;
-		
-		for (anim in charAnims) {
+
+		for (anim in charAnims)
+		{
 			if (anim.indices.length == 0 || anim.indices == null)
 				animation.addByPrefix(anim.anim, anim.name, anim.fps, anim.loop);
 			else
@@ -63,16 +65,22 @@ class Character extends FlxSprite
 			if (!curCharacter.startsWith('bf'))
 			{
 				// var animArray
-				var oldRight = animation.getByName('singRIGHT').frames;
-				animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
+				var oldRight = animation.getByName("singRIGHT").frames;
+				var oldRightOffset = animOffsets.get("singRIGHT");
+				animation.getByName("singRIGHT").frames = animation.getByName("singLEFT").frames;
+				animOffsets.set("singRIGHT", animOffsets.get("singLEFT"));
 				animation.getByName('singLEFT').frames = oldRight;
+				animOffsets.set("singLEFT", oldRightOffset);
 
 				// IF THEY HAVE MISS ANIMATIONS??
 				if (animation.getByName('singRIGHTmiss') != null)
 				{
-					var oldMiss = animation.getByName('singRIGHTmiss').frames;
-					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
+					var oldMiss = animation.getByName("singRIGHTmiss").frames;
+					var oldMissOffset = animOffsets.get("singRIGHTmiss");
+					animation.getByName("singRIGHTmiss").frames = animation.getByName("singLEFTmiss").frames;
+					animOffsets.set("singRIGHTmiss", animOffsets.get("singLEFTmiss"));
 					animation.getByName('singLEFTmiss').frames = oldMiss;
+					animOffsets.set("singLEFTmiss", oldMissOffset);
 				}
 			}
 		}
@@ -80,7 +88,7 @@ class Character extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-		if (!curCharacter.startsWith('bf'))
+		if (!isPlayer)
 		{
 			if (animation.curAnim.name.startsWith('sing'))
 			{
@@ -95,6 +103,23 @@ class Character extends FlxSprite
 			{
 				dance();
 				holdTimer = 0;
+			}
+		} else {
+			if (animation.curAnim.name.startsWith('sing'))
+			{
+				holdTimer += elapsed;
+			}
+			else
+				holdTimer = 0;
+
+			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
+			{
+				playAnim('idle', true, false, 10);
+			}
+
+			if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished)
+			{
+				playAnim('deathLoop');
 			}
 		}
 
@@ -117,14 +142,17 @@ class Character extends FlxSprite
 	{
 		if (!debugMode)
 		{
-			if (animation.exists("danceLeft")) {
+			if (animation.exists("danceLeft"))
+			{
 				danced = !danced;
 
 				if (danced)
 					playAnim('danceRight');
 				else
 					playAnim('danceLeft');
-			} else {
+			}
+			else
+			{
 				playAnim('idle');
 			}
 		}

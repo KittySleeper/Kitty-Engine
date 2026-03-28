@@ -71,7 +71,10 @@ class Paths
 	inline static public function voices(key:String, character:String, variant:String)
 	{
 		var songLowercase = StringTools.replace(key, " ", "-").toLowerCase();
-		character = "-" + character.toLowerCase();
+		if (character != null && character != "")
+			character = "-" + character.toLowerCase();
+		else
+			character = "";
 
 		if (exists('songs/$songLowercase/Voices$character-${variant.toLowerCase()}.$SOUND_EXT'))
 			variant = "-" + variant.toLowerCase();
