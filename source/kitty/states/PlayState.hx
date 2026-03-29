@@ -22,7 +22,6 @@ import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
-import kitty.objects.Boyfriend;
 import kitty.objects.Character;
 import kitty.objects.DialogueBox;
 import kitty.objects.Note;

@@ -72,24 +72,24 @@ class HScript
 				"Math" => Math,
 				"Std" => Std,
 
-				"FlxG" => flixel.FlxG,
+				"FlxG" => FlxG,
 				"Http" => haxe.Http,
-				"FlxSprite" => flixel.FlxSprite,
+				"FlxSprite" => FlxSprite,
 				"FlxText" => flixel.text.FlxText,
 				"FlxSound" => flixel.sound.FlxSound,
 
-				"FlxTween" => flixel.tweens.FlxTween,
-				"FlxEase" => flixel.tweens.FlxEase,
+				"FlxTween" => FlxTween,
+				"FlxEase" => FlxEase,
 
 				"FlxBackdrop" => flixel.addons.display.FlxBackdrop,
 
 				"Assets" => Assets,
 
-				"PlayState" => PlayState,
-				"PlayStateChangeables" => PlayStateChangeables,
-				"Character" => Character,
-				"Paths" => Paths,
-				"Conductor" => Conductor,
+				"PlayState" => kitty.states.PlayState,
+				"PlayStateChangeables" => kitty.backend.PlayStateChangeables,
+				"Character" => kitty.objects.Character,
+				"Paths" => kitty.backend.Paths,
+				"Conductor" => kitty.backend.Conductor,
 
 				"HScript" => HScript,
 			];

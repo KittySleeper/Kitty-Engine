@@ -6,7 +6,6 @@ import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import kitty.objects.Character;
-import kitty.objects.Boyfriend;
 
 /**
 	*DEBUG MODE

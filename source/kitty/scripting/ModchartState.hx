@@ -20,7 +20,6 @@ import flixel.FlxCamera;
 import kitty.states.menus.MainMenuState;
 import kitty.states.PlayState;
 import kitty.objects.Character;
-import kitty.objects.Boyfriend;
 
 class ModchartState
 {

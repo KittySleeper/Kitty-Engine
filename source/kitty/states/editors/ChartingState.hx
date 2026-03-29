@@ -33,7 +33,6 @@ import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
 import kitty.objects.Character;
-import kitty.objects.Boyfriend;
 import kitty.objects.HealthIcon;
 
 class ChartingState extends MusicBeatState

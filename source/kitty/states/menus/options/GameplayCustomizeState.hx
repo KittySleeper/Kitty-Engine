@@ -11,7 +11,6 @@ import sys.thread.Thread;
 
 import flixel.group.FlxGroup;
 import openfl.ui.Keyboard;
-import kitty.objects.Boyfriend;
 import kitty.objects.Character;
 import kitty.objects.Note;
 

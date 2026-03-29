@@ -4,7 +4,7 @@ import flixel.FlxObject;
 import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 import kitty.backend.MusicBeatSubstate;
-import kitty.objects.Boyfriend;
+import kitty.objects.Character;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
