@@ -249,7 +249,7 @@ class ModchartState
 	{				var oldboyfriendx = PlayState.instance.boyfriend.x;
 					var oldboyfriendy = PlayState.instance.boyfriend.y;
 					PlayState.instance.removeObject(PlayState.instance.boyfriend);
-					PlayState.instance.boyfriend = new Boyfriend(oldboyfriendx, oldboyfriendy, id);
+					PlayState.instance.boyfriend = new Character(oldboyfriendx, oldboyfriendy, id, true);
 					PlayState.instance.addObject(PlayState.instance.boyfriend);
 					PlayState.instance.iconP2.animation.play(id);
 	}

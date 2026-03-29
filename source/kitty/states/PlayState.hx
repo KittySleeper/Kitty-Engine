@@ -84,7 +84,7 @@ class PlayState extends MusicBeatState
 
 	public var dad:Character;
 	public var gf:Character;
-	public var boyfriend:Boyfriend;
+	public var boyfriend:Character;
 
 	public var notes:FlxTypedGroup<Note>;
 
@@ -345,7 +345,6 @@ class PlayState extends MusicBeatState
 				songScript.setValue('add', add);
 				songScript.setValue('remove', remove);
 				songScript.interp.execute(songScript.expr);
-				scripts.push(songScript);
 			}
 			scripts.push(songScript);
 		}
@@ -523,7 +522,7 @@ class PlayState extends MusicBeatState
 					camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			}
 
-			boyfriend = new Boyfriend(770, 450, SONG.player1);
+			boyfriend = new Character(770, 450, SONG.player1, true);
 
 			switch (curStage)
 			{
@@ -1216,13 +1215,24 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
-		if (SONG.needsVoices) {
-			var voicesBF = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, boyfriend.curCharacter, songVariant));
-			var voicesDad = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, dad.curCharacter, songVariant));
-
-			for (voices in [voicesBF, voicesDad]) {
+		if (SONG.needsVoices)
+		{
+			if (Paths.exists('songs/$curSong/Voices.${Paths.SOUND_EXT}'))
+			{
+				var voices = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, null, null));
 				FlxG.sound.list.add(voices);
 				vocals.push(voices);
+			}
+			else
+			{
+				var voicesBF = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, boyfriend.curCharacter, songVariant));
+				var voicesDad = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, dad.curCharacter, songVariant));
+
+				for (voices in [voicesBF, voicesDad])
+				{
+					FlxG.sound.list.add(voices);
+					vocals.push(voices);
+				}
 			}
 		}
 
@@ -1548,7 +1558,8 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.play();
 		Conductor.songPosition = FlxG.sound.music.time;
 
-		for (voices in vocals) {
+		for (voices in vocals)
+		{
 			voices.time = Conductor.songPosition;
 			voices.play();
 		}
@@ -1859,8 +1870,6 @@ class PlayState extends MusicBeatState
 
 		if (health <= 0)
 		{
-			boyfriend.stunned = true;
-
 			persistentUpdate = false;
 			persistentDraw = false;
 			paused = true;
@@ -1877,8 +1886,6 @@ class PlayState extends MusicBeatState
 		{
 			if (FlxG.keys.justPressed.R)
 			{
-				boyfriend.stunned = true;
-
 				persistentUpdate = false;
 				persistentDraw = false;
 				paused = true;
@@ -2120,7 +2127,8 @@ class PlayState extends MusicBeatState
 							else
 							{
 								health -= 0.075;
-								vocals[0].volume = 0;
+								if (SONG.needsVoices)
+									vocals[0].volume = 0;
 								if (theFunne)
 									noteMiss(daNote.noteData, daNote);
 							}
@@ -2128,7 +2136,8 @@ class PlayState extends MusicBeatState
 						else
 						{
 							health -= 0.075;
-							vocals[0].volume = 0;
+							if (SONG.needsVoices)
+								vocals[0].volume = 0;
 							if (theFunne)
 								noteMiss(daNote.noteData, daNote);
 						}
@@ -2242,9 +2251,10 @@ class PlayState extends MusicBeatState
 
 					paused = true;
 
-					if (FlxG.save.data.scoreScreen) {
+					if (FlxG.save.data.scoreScreen)
+					{
 						persistentUpdate = false;
-						persistentDraw = false;
+						persistentDraw = true;
 
 						openSubState(new ResultsScreen());
 					}
@@ -2262,7 +2272,6 @@ class PlayState extends MusicBeatState
 					}
 					#end
 
-					// if ()
 					StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
 					if (SONG.validScore)
@@ -2310,9 +2319,10 @@ class PlayState extends MusicBeatState
 
 				paused = true;
 
-				if (FlxG.save.data.scoreScreen) {
+				if (FlxG.save.data.scoreScreen)
+				{
 					persistentUpdate = false;
-					persistentDraw = false;
+					persistentDraw = true;
 
 					openSubState(new ResultsScreen());
 				} else
@@ -2336,7 +2346,8 @@ class PlayState extends MusicBeatState
 	{
 		var noteDiff:Float = -(daNote.strumTime - Conductor.songPosition);
 		var wife:Float = EtternaFunctions.wife3(-noteDiff, Conductor.timeScale);
-		vocals[0].volume = 1;
+		if (SONG.needsVoices)
+			vocals[0].volume = 1;
 		var placement:String = Std.string(combo);
 
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
@@ -2565,7 +2576,7 @@ class PlayState extends MusicBeatState
 						visibleCombos.remove(numScore);
 						numScore.destroy();
 					},
-					onUpdate: function (tween:FlxTween)
+					onUpdate: function(tween:FlxTween)
 					{
 						if (!visibleCombos.contains(numScore))
 						{
@@ -2578,7 +2589,7 @@ class PlayState extends MusicBeatState
 
 				if (visibleCombos.length > seperatedScore.length + 20)
 				{
-					for(i in 0...seperatedScore.length - 1)
+					for (i in 0...seperatedScore.length - 1)
 					{
 						visibleCombos.remove(visibleCombos[visibleCombos.length - 1]);
 					}
@@ -2673,7 +2684,7 @@ class PlayState extends MusicBeatState
 				anas[i] = new Ana(Conductor.songPosition, null, false, "miss", i);
 
 		// HOLDS, check for sustain notes
-		if (holdArray.contains(true) && /*!boyfriend.stunned && */ generatedMusic)
+		if (holdArray.contains(true) && generatedMusic)
 		{
 			notes.forEachAlive(function(daNote:Note)
 			{
@@ -2904,7 +2915,7 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(direction:Int = 1, daNote:Note):Void
 	{
-		if (!boyfriend.stunned)
+		if (!daNote.wasGoodHit)
 		{
 			health -= 0.04;
 			if (combo > 5 && gf.animOffsets.exists('sad'))
@@ -3055,7 +3066,8 @@ class PlayState extends MusicBeatState
 				popUpScore(note);
 				combo += 1;
 			}
-			else {
+			else
+			{
 				totalNotesHit += 1;
 			}
 
@@ -3092,7 +3104,8 @@ class PlayState extends MusicBeatState
 			});
 
 			note.wasGoodHit = true;
-			vocals[0].volume = 1;
+			if (SONG.needsVoices)
+				vocals[0].volume = 1;
 
 			note.kill();
 			notes.remove(note, true);

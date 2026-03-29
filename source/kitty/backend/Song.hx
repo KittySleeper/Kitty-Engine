@@ -47,7 +47,7 @@ class Song
 		this.bpm = bpm;
 	}
 
-	public static function loadFromJson(jsonInput:String, ?diff:String = "normal", ?variant:String = null):SwagSong
+	public static function loadFromJson(jsonInput:String, ?diff:String = "normal", ?variant:String = null):SwagSong //this is rlly messy.., if anyone wants to make it more organized or wutev u can
 	{
 		var folderLowercase = StringTools.replace(jsonInput, " ", "-").toLowerCase();
 		trace('loading ' + folderLowercase);
@@ -64,6 +64,18 @@ class Song
 			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/chart$variant.json'), Paths.exists("data/songs/" + folderLowercase + '/meta$variant.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json') : null, diff);
 
 			return cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+		} else if (Paths.exists("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osz')) {
+			final fromFormatName = FormatDetector.findFormat([Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osz'), Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json')]);
+			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
+			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osz'), Paths.exists("data/songs/" + folderLowercase + '/meta$variant.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json') : null, diff);
+
+			return cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+		} else if (Paths.exists("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osu')) {
+			final fromFormatName = FormatDetector.findFormat([Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osu')]);
+			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
+			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osu'), diff);
+
+			return cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
 		} else {
 			final fromFormatName = FormatDetector.findFormat(Paths.rawFile("data/songs/" + folderLowercase + '/' + diff.toLowerCase() + ".json"));
 			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
@@ -71,8 +83,13 @@ class Song
 			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/' + diff.toLowerCase() + variant + ".json"), Paths.exists("data/songs/" + folderLowercase + '/meta$variant.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json') : null, diff);
 
 			var epicSong:SwagSong = cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+
+			try {
 			epicSong.stage = fromFormat.data.song.stage; //why the fuck does this happen what...?
 			epicSong.events = fromFormat.data.song.events;
+			} catch (e) { //breaks for cne charts sometimes????
+
+			}
 
 			return epicSong;
 		}

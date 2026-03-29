@@ -39,12 +39,12 @@ class OptionsMenu extends MusicBeatState
 			new CamZoomOption("Toggle the camera zoom in-game."),
 			#if desktop
 			new RainbowFPSOption("Make the FPS Counter Rainbow"),
+			#end
 			new AccuracyOption("Display accuracy information."),
 			new NPSDisplayOption("Shows your current Notes Per Second."),
 			new SongPositionOption("Show the songs current position (as a bar)"),
 			new CpuStrums("CPU's strumline lights up when a note hits it."),
 			new IconColor("Make the Health Bar match the Icon's colors."),
-			#end
 		]),
 
 		new OptionCategory("Misc", [

@@ -87,6 +87,7 @@ class HScript
 
 				"PlayState" => PlayState,
 				"PlayStateChangeables" => PlayStateChangeables,
+				"Character" => Character,
 				"Paths" => Paths,
 				"Conductor" => Conductor,
 

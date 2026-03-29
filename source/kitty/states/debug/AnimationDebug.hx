@@ -13,7 +13,7 @@ import kitty.objects.Boyfriend;
  */
 class AnimationDebug extends FlxState
 {
-	var bf:Boyfriend;
+	var bf:Character;
 	var dad:Character;
 	var char:Character;
 	var textAnim:FlxText;
@@ -53,7 +53,7 @@ class AnimationDebug extends FlxState
 		}
 		else
 		{
-			bf = new Boyfriend(0, 0);
+			bf = new Character(0, 0, true);
 			bf.screenCenter();
 			bf.debugMode = true;
 			add(bf);

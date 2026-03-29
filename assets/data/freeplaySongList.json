@@ -19,7 +19,9 @@
       "difficulties": [
         { "chartName": "easy" },
         { "chartName": "normal" },
-        { "chartName": "hard" }
+        { "chartName": "hard" },
+        { "chartName": "erect", "chartVariant": "erect" },
+        { "chartName": "nightmare", "chartVariant": "erect" }
       ]
     },
     {
@@ -43,7 +45,9 @@
       "difficulties": [
         { "chartName": "easy" },
         { "chartName": "normal" },
-        { "chartName": "hard" }
+        { "chartName": "hard" },
+        { "chartName": "erect", "chartVariant": "erect" },
+        { "chartName": "nightmare", "chartVariant": "erect" }
       ]
     },
     {

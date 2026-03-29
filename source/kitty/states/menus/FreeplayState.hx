@@ -152,7 +152,6 @@ class FreeplayState extends MusicBeatState
 	function changeDiff(change:Int = 0)
 	{
 		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, songs[curSelected].songDifficulties.length - 1);
-		trace(songs[curSelected].songDifficulties[curDifficulty], songs[curSelected].songDifficulties[curDifficulty].chartName);
 
 		var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
 
