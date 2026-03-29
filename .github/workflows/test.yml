@@ -32,8 +32,8 @@ jobs:
           key: windows-build-cache
           path: |
             .haxelib/
-            export/build/windows/haxe/
-            export/build/windows/obj/
+            export/release/windows/haxe/
+            export/release/windows/obj/
           restore-keys: windows-build-cache
 
       - name: Install Libraries
@@ -41,14 +41,20 @@ jobs:
           haxelib install hmm
           haxelib run hmm install
 
+      - name: Building HXCPP
+        run: |
+          cd ./.haxelib/hxcpp/git/tools/hxcpp
+          haxe compile.hxml
+          cd ../../../../../
+
       - name: Compile Engine
-        run: haxelib run lime build windows -final
+        run: haxelib run lime build windows
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
           name: Kitty Windows Build
-          path: export/build/windows/bin
+          path: export/release/windows/bin
           overwrite: true
           include-hidden-files: true
           if-no-files-found: error
@@ -80,8 +86,8 @@ jobs:
           key: windows-build-cache
           path: |
             .haxelib/
-            export/build/windows/haxe/
-            export/build/windows/obj/
+            export/release/windows/haxe/
+            export/release/windows/obj/
           restore-keys: windows-build-cache
 
   # mac:
@@ -106,8 +112,8 @@ jobs:
   #         key: mac-build-cache
   #         path: |
   #           .haxelib/
-  #           export/build/mac/haxe/
-  #           export/build/mac/obj/
+  #           export/release/mac/haxe/
+  #           export/release/mac/obj/
   #         restore-keys: mac-build-cache
 
   #     - name: Install Libraries
@@ -115,14 +121,20 @@ jobs:
   #         haxelib install hmm
   #         haxelib run hmm install
 
+  #     - name: Building HXCPP
+  #       run: |
+  #         cd ./.haxelib/hxcpp/git/tools/hxcpp
+  #         haxe compile.hxml
+  #         cd ../../../../../
+
   #     - name: Building the game
-  #       run: haxelib run lime build mac -final
+  #       run: haxelib run lime build mac
 
   #     - name: Upload Artifact
   #       uses: actions/upload-artifact@main
   #       with:
   #         name: Kitty Mac Build
-  #         path: export/build/macos/bin
+  #         path: export/release/macos/bin
   #         overwrite: true
   #         include-hidden-files: true
   #         if-no-files-found: error
@@ -154,8 +166,8 @@ jobs:
   #         key: mac-build-cache
   #         path: |
   #           .haxelib/
-  #           export/build/mac/haxe/
-  #           export/build/mac/obj/
+  #           export/release/mac/haxe/
+  #           export/release/mac/obj/
   #         restore-keys: mac-build-cache
 
   # linux:
@@ -180,8 +192,8 @@ jobs:
   #         key: linux-build-cache
   #         path: |
   #           .haxelib/
-  #           export/build/linux/haxe/
-  #           export/build/linux/obj/
+  #           export/release/linux/haxe/
+  #           export/release/linux/obj/
   #         restore-keys: linux-build-cache
 
   #     - name: Installing Dependencies
@@ -192,14 +204,20 @@ jobs:
   #         haxelib install hmm
   #         haxelib run hmm install
 
+  #     - name: Building HXCPP
+  #       run: |
+  #         cd ./.haxelib/hxcpp/git/tools/hxcpp
+  #         haxe compile.hxml
+  #         cd ../../../../../
+
   #     - name: Building the game
-  #       run: haxelib run lime build linux -final
+  #       run: haxelib run lime build linux
 
   #     - name: Upload Artifact
   #       uses: actions/upload-artifact@main
   #       with:
   #         name: Kitty Linux Build
-  #         path: export/build/linux/bin
+  #         path: export/release/linux/bin
   #         overwrite: true
   #         include-hidden-files: true
   #         if-no-files-found: error
@@ -230,6 +248,6 @@ jobs:
   #         key: linux-build-cache
   #         path: |
   #           .haxelib/
-  #           export/build/linux/haxe/
-  #           export/build/linux/obj/
+  #           export/release/linux/haxe/
+  #           export/release/linux/obj/
   #         restore-keys: linux-build-cache
