@@ -1,7 +1,6 @@
 package kitty.backend;
 
 import flixel.graphics.FlxGraphic;
-import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import haxe.Json;
 import openfl.media.Sound;
@@ -93,7 +92,7 @@ class Paths
 		}
 	}
 
-	inline static public function image(key:String)
+	inline static public function image(key:String, renderToGPU:Bool = true)
 	{
 		if (epicCacheFromOhio.exists('images/$key.png'))
 		{
@@ -101,7 +100,8 @@ class Paths
 		}
 		else
 		{
-			var epicImage:FlxGraphic = FlxGraphic.fromBitmapData(BitmapData.fromFile(rawFile('images/$key.png'))); //, true, null, false
+			var bitmap = BitmapData.fromFile(rawFile('images/$key.png')); bitmap.renderToGPU = renderToGPU;
+			var epicImage:FlxGraphic = FlxGraphic.fromBitmapData(bitmap);
 			epicCacheFromOhio.set('images/$key.png', epicImage);
 			epicImage.persist = true;
 			return epicImage;

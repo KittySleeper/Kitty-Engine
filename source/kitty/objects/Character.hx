@@ -1,10 +1,6 @@
 package kitty.objects;
 
-import flixel.util.FlxColor;
-import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
-
-using StringTools;
 
 class Character extends FlxSprite
 {

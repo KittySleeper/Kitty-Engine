@@ -5,8 +5,6 @@ import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import kitty.objects.Alphabet;
 
-using StringTools;
-
 class ModsMenuState extends MusicBeatState
 {
 	var curSelected:Int = 0;

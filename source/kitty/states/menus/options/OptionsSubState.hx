@@ -1,10 +1,8 @@
 package kitty.states.menus.options;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxGroup;
 import flixel.text.FlxText;
-import flixel.util.FlxColor;
+import kitty.backend.MusicBeatSubstate;
 
 class OptionsSubState extends MusicBeatSubstate
 {
@@ -57,7 +55,7 @@ class OptionsSubState extends MusicBeatSubstate
 				txt.color = FlxColor.YELLOW;
 		});
 
-		if (controls.ACCEPT)
+		/* if (controls.ACCEPT)
 		{
 			switch (textMenuItems[curSelected])
 			{
@@ -65,6 +63,6 @@ class OptionsSubState extends MusicBeatSubstate
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new ControlsSubState());
 			}
-		}
+		} */
 	}
 }

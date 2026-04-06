@@ -1,8 +1,5 @@
 package kitty.objects;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
-
 class NoteSplash extends FlxSprite {
     public var animNames:Array<String> = ["left", "down", "up", "right"];
     public var daNote:Note;

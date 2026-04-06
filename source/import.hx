@@ -1,3 +1,4 @@
+#if !macro
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
@@ -16,3 +17,4 @@ import kitty.backend.modding.*;
 import kitty.states.menus.options.KadeEngineData;
 
 using StringTools;
+#end

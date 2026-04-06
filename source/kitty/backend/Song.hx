@@ -6,8 +6,6 @@ import moonchart.backend.FormatDetector;
 import kitty.backend.Section;
 import haxe.Json;
 
-using StringTools;
-
 typedef SwagSong =
 {
 	var song:String;

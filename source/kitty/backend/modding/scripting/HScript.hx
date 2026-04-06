@@ -1,12 +1,12 @@
 package kitty.backend.modding.scripting;
 
-import flixel.FlxG;
+import sys.FileSystem;
+import kitty.states.PlayState;
+import kitty.backend.PlayStateChangeables;
 #if sys
 import openfl.Assets;
 import hscript.*;
 #end
-
-using StringTools;
 
 class HScript
 {
