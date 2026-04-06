@@ -1,14 +1,9 @@
 package kitty.states;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
 import lime.app.Application;
+import kitty.states.menus.MainMenuState;
 
 class OutdatedSubState extends MusicBeatState
 {
@@ -91,7 +86,7 @@ class OutdatedSubState extends MusicBeatState
 		if (controls.BACK)
 		{
 			leftState = true;
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 		}
 		super.update(elapsed);
 	}

@@ -1,10 +1,7 @@
 package kitty.backend;
 
-import flixel.FlxG;
 import flixel.math.FlxMath;
 import lime.utils.Assets;
-
-using StringTools;
 
 class CoolUtil
 {

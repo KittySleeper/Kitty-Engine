@@ -1,7 +1,6 @@
 package kitty.backend;
 
 import flixel.graphics.FlxGraphic;
-import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import haxe.Json;
 import openfl.media.Sound;

@@ -1,6 +1,5 @@
 package kitty.states.menus;
 
-import flixel.util.FlxTimer;
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
 #if windows

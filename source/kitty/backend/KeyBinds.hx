@@ -1,6 +1,5 @@
 package kitty.backend;
 
-import flixel.FlxG;
 import flixel.input.FlxInput;
 import flixel.input.actions.FlxAction;
 import flixel.input.actions.FlxActionInput;

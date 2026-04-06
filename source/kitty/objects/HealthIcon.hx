@@ -1,7 +1,5 @@
 package kitty.objects;
 
-import flixel.FlxSprite;
-
 class HealthIcon extends FlxSprite
 {
 	/**

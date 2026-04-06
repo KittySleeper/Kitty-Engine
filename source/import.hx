@@ -1,3 +1,4 @@
+#if !macro
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
@@ -14,3 +15,4 @@ import kitty.backend.KadeEngineData;
 import kitty.backend.Highscore;
 
 using StringTools;
+#end
