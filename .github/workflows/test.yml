@@ -39,7 +39,7 @@ jobs:
       - name: Install Libraries
         run: |
           mkdir .haxelib
-          haxelib update haxelib
+          haxelib --global update haxelib
           haxelib fixrepo
           haxelib install hmm
           haxelib run hmm install
@@ -122,7 +122,7 @@ jobs:
   #     - name: Install Libraries
   #       run: |
   #         mkdir .haxelib
-  #         haxelib update haxelib
+  #         haxelib --global update haxelib
   #         haxelib fixrepo
   #         haxelib install hmm
   #         haxelib run hmm install
@@ -208,7 +208,7 @@ jobs:
   #     - name: Install Libraries
   #       run: |
   #         mkdir .haxelib
-  #         haxelib update haxelib
+  #         haxelib --global update haxelib
   #         haxelib fixrepo
   #         haxelib install hmm
   #         haxelib run hmm install
