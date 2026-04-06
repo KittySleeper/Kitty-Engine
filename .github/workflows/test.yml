@@ -38,6 +38,7 @@ jobs:
 
       - name: Install Libraries
         run: |
+          haxelib update haxelib
           haxelib install hmm
           haxelib run hmm install
 
