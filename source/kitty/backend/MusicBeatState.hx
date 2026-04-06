@@ -1,8 +1,8 @@
 package kitty.backend;
 
+import kitty.backend.modding.scripting.HScript;
 import openfl.Lib;
 import flixel.addons.ui.FlxUIState;
-import flixel.math.FlxRect;
 
 class MusicBeatState extends FlxUIState
 {

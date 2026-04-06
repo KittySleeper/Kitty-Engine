@@ -1,4 +1,4 @@
-package kitty.objects;
+package kitty.states.menus.options;
 
 import lime.app.Application;
 import lime.system.DisplayMode;
@@ -49,11 +49,13 @@ class Option
 	{
 		display = updateDisplay();
 	}
+
 	private var description:String = "";
 	private var display:String;
 	private var acceptValues:Bool = false;
 	public final function getDisplay():String
 	{
+		updateDisplay();
 		return display;
 	}
 
@@ -76,16 +78,56 @@ class Option
 	public function right():Bool { return throw "stub!"; }
 }
 
+/**
+ * New Options System, Old Ones Will Be Deprecated Soon (probably not, but maybe)
+ */
+class SoftOption extends Option {
+	public final id:String;
+	public final name:String;
+	public final desc:String;
+	public final defaultValue:Dynamic;
+	public final type:String;
 
+	public override function new(id:String, name:String, desc:String, defaultValue:Dynamic, type:String)
+	{		
+		this.type = type;
+		this.id = id;
+		this.name = name;
+		this.desc = desc;
+		this.type = type;
+		this.defaultValue = defaultValue;
+
+		super();
+	}
+
+	public override function press():Bool
+	{
+		KadeEngineData.kittyOptions.set(id, !KadeEngineData.kittyOptions.get(id));
+			KadeEngineData.saveKittyOption(id, KadeEngineData.kittyOptions.get(id));
+		display = updateDisplay();
+		return type == "bool";
+	}
+
+		public override function left() {
+		return type == "int" || type == "float";
+	}
+
+	public override function right() {
+		return type == "int" || type == "float";
+	}
+
+	private override function updateDisplay():String
+	{
+		description = desc;
+		return name + " " + (KadeEngineData.kittyOptions.get(id) ? "ON" : "OFF");
+	}
+}
 
 class DFJKOption extends Option
 {
-	private var controls:Controls;
-
-	public function new(controls:Controls)
+	public function new()
 	{
 		super();
-		this.controls = controls;
 	}
 
 	public override function press():Bool
@@ -164,27 +206,6 @@ class DownscrollOption extends Option
 	private override function updateDisplay():String
 	{
 		return FlxG.save.data.downscroll ? "Downscroll" : "Upscroll";
-	}
-}
-
-class GhostTapOption extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-
-	public override function press():Bool
-	{
-		FlxG.save.data.ghost = !FlxG.save.data.ghost;
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return FlxG.save.data.ghost ? "Ghost Tapping" : "No Ghost Tapping";
 	}
 }
 

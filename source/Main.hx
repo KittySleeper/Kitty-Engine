@@ -2,18 +2,16 @@ package;
 
 import flixel.util.FlxColor;
 import flixel.FlxGame;
-import flixel.FlxState;
 import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
-import kitty.scripting.HScript;
 
 class Main extends Sprite
 {
 	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	var initialState:Class<FlxState> = kitty.states.menus.TitleState; // The FlxState the game starts with.
+	var initialState:Class<flixel.FlxState> = kitty.states.menus.TitleState; // The State the game starts with.
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var framerate:Int = 120; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
@@ -68,18 +66,6 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		HScript.parser = new hscript.Parser();
-		HScript.parser.allowJSON = true;
-		HScript.parser.allowMetadata = true;
-		HScript.parser.allowTypes = true;
-		HScript.parser.preprocesorValues = [
-			"desktop" => #if (desktop) true #else false #end,
-			"windows" => #if (windows) true #else false #end,
-			"mac" => #if (mac) true #else false #end,
-			"linux" => #if (linux) true #else false #end,
-			"debugBuild" => #if (debug) true #else false #end
-		];
-
 		game = new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen);
 		addChild(game);
 
@@ -93,11 +79,11 @@ class Main extends Sprite
 		trace("HEY!, This Engine Is Not Intended For HTML5 And Many Features May Not Work Properly.");
 		#end
 
-		FlxG.signals.preStateSwitch.add(() -> {
-			if (dumpNextState)
-				Paths.dumpCache();
-			else
-				dumpNextState = true;
+		ModHandler.initialize();
+
+		FlxG.signals.preUpdate.add(() -> {
+			if (FlxG.keys.justPressed.F5)
+				FlxG.resetState();
 		});
 	}
 

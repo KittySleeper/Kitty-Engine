@@ -1,7 +1,6 @@
 package kitty.states.debug;
 
 import flixel.FlxObject;
-import flixel.FlxState;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
@@ -10,7 +9,7 @@ import kitty.objects.Character;
 /**
 	*DEBUG MODE
  */
-class AnimationDebug extends FlxState
+class AnimationDebug extends MusicBeatState
 {
 	var bf:Character;
 	var dad:Character;

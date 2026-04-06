@@ -1,4 +1,4 @@
-package kitty.scripting;
+package kitty.backend.modding.scripting;
 
 // this file is for modchart things, this is to declutter playstate.hx
 

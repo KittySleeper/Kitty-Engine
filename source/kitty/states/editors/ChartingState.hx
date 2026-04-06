@@ -667,15 +667,6 @@ class ChartingState extends MusicBeatState
 
 		curStep = recalculateSteps();
 
-		/*if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.RIGHT)
-			snap = snap * 2;
-		if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.LEFT)
-			snap = Math.round(snap / 2);
-		if (snap >= 192)
-			snap = 192;
-		if (snap <= 1)
-			snap = 1;*/
-
 		if (FlxG.keys.justPressed.CONTROL)
 			doSnapShit = !doSnapShit;
 
@@ -918,9 +909,9 @@ class ChartingState extends MusicBeatState
 				shiftThing = 4;
 			if (!FlxG.keys.pressed.CONTROL)
 			{
-				if (FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.D)
+				if (controls.RIGHT_P)
 					changeSection(curSection + shiftThing);
-				if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
+				if (controls.LEFT_P)
 					changeSection(curSection - shiftThing);
 			}
 			if (FlxG.keys.justPressed.SPACE)
@@ -992,14 +983,14 @@ class ChartingState extends MusicBeatState
 			}
 			else
 			{
-				if (FlxG.keys.justPressed.W || FlxG.keys.justPressed.S)
+				if (controls.DOWN_P || controls.UP_P)
 				{
 					FlxG.sound.music.pause();
 					vocals.pause();
 
 					var daTime:Float = Conductor.stepCrochet * 2;
 
-					if (FlxG.keys.justPressed.W)
+					if (controls.UP_P)
 					{
 						FlxG.sound.music.time -= daTime;
 					}
@@ -1013,9 +1004,9 @@ class ChartingState extends MusicBeatState
 
 		_song.bpm = tempBpm;
 
-		/* if (FlxG.keys.justPressed.UP)
+		/* if (controls.UP_P)
 				Conductor.changeBPM(Conductor.bpm + 1);
-			if (FlxG.keys.justPressed.DOWN)
+			if (controls.DOWN_P)
 				Conductor.changeBPM(Conductor.bpm - 1); */
 
 		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))

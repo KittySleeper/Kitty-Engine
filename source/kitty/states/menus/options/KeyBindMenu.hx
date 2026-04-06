@@ -3,24 +3,13 @@ package kitty.states.menus.options;
 /// Code created by Rozebud for FPS Plus (thanks rozebud)
 // modified by KadeDev for use in Kade Engine/Tricky
 
+import kitty.backend.MusicBeatSubstate;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxAxes;
-import flixel.FlxSubState;
-import flixel.input.FlxInput;
-import flixel.input.keyboard.FlxKey;
-import flixel.FlxObject;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup;
 import flixel.text.FlxText;
-import lime.app.Application;
-import lime.utils.Assets;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.input.FlxKeyManager;
 import kitty.backend.KeyBinds;
 
-class KeyBindMenu extends FlxSubState
+class KeyBindMenu extends MusicBeatSubstate
 {
 
     var keyTextDisplay:FlxText;
@@ -113,13 +102,13 @@ class KeyBindMenu extends FlxSubState
         switch(state){
 
             case "select":
-                if (FlxG.keys.justPressed.UP)
+                if (controls.UP_P)
                 {
                     FlxG.sound.play(Paths.sound('scrollMenu'));
                     changeItem(-1);
                 }
 
-                if (FlxG.keys.justPressed.DOWN)
+                if (controls.DOWN_P)
                 {
                     FlxG.sound.play(Paths.sound('scrollMenu'));
                     changeItem(1);

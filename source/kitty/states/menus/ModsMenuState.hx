@@ -11,6 +11,8 @@ class ModsMenuState extends MusicBeatState
 {
 	var curSelected:Int = 0;
 	private var grpSongs:FlxTypedGroup<Alphabet>;
+	private var grpIcons:Array<FlxSprite> = [];
+	var modList:Array<String> = ["Base Game"];
 
 	override function create()
 	{
@@ -21,12 +23,20 @@ class ModsMenuState extends MusicBeatState
 		add(grpSongs);
 
 		for (i => mod in FileSystem.readDirectory("./mods"))
+			if (!modList.contains(mod))
+				modList.push(mod);
+
+		for (i => mod in modList)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, mod, true, false, true);
-			songText.color = songText.text == FlxG.save.data.modSelected ? FlxColor.LIME : FlxColor.WHITE;
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, ModHandler.getModMeta(mod).modName, true, false, true);
+			songText.color = mod == FlxG.save.data.modSelected ? FlxColor.LIME : FlxColor.WHITE;
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
+
+			var modIcon:FlxSprite = new FlxSprite(0, 0, ModHandler.getModIcon(mod));
+			grpIcons.push(modIcon);
+			add(modIcon);
 		}
 
 		changeSelection();
@@ -43,8 +53,8 @@ class ModsMenuState extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		var upP = FlxG.keys.justPressed.UP;
-		var downP = FlxG.keys.justPressed.DOWN;
+		var upP = controls.UP_P;
+		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
 
 		if (upP)
@@ -57,23 +67,28 @@ class ModsMenuState extends MusicBeatState
 
 		if (accepted)
 		{
-			FlxG.save.data.modSelected = grpSongs.members[curSelected].text;
-			Paths.ASSETS_PATH = ["mods/" + FlxG.save.data.modSelected, "assets"];
+			FlxG.save.data.modSelected = modList[curSelected];
+			ModHandler.initialize();
 
-			for (item in grpSongs.members)
-				item.color = item.text == FlxG.save.data.modSelected ? FlxColor.LIME : FlxColor.WHITE;
+			for (i => item in grpSongs.members)
+				item.color = i == curSelected ? FlxColor.LIME : FlxColor.WHITE;
+		}
+
+		for (i => modIcon in grpIcons)
+		{
+			modIcon.setPosition(grpSongs.members[i].x + grpSongs.members[i].width + 30, grpSongs.members[i].y - 30);
+			modIcon.alpha = grpSongs.members[i].alpha;
 		}
 	}
 
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-
 		curSelected = FlxMath.wrap(curSelected + change, 0, grpSongs.length - 1);
 
 		var bullShit:Int = 0;
 
-		for (item in grpSongs.members)
+		for (i => item in grpSongs.members)
 		{
 			item.targetY = bullShit - curSelected;
 			bullShit++;

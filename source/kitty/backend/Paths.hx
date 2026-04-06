@@ -11,7 +11,7 @@ import sys.FileSystem;
 
 class Paths
 {
-	static var epicCacheFromOhio:Map<String, Dynamic> = [];
+	public static var epicCacheFromOhio:Map<String, Dynamic> = [];
 
 	inline public static var SOUND_EXT:String = #if web "mp3" #else "ogg" #end;
 	public static var ASSETS_PATH:Array<String> = ["assets"];
@@ -120,14 +120,11 @@ class Paths
 	inline static public function txt(key:String)
 		return fileData('$key.txt');
 
-	inline static public function json(key:String)
-		return Json.parse(fileData('$key.json'));
+	inline static public function json(key:String):Dynamic
+		return exists('$key.json') ? Json.parse(fileData('$key.json')) : Json.parse("{}");
 
 	inline static public function lua(key:String)
 		return fileData('$key.lua');
-
-	inline static public function hx(key:String)
-		return fileData('$key.hx');
 
 	inline static public function font(key:String)
 		return rawFile('fonts/$key');
@@ -179,14 +176,8 @@ class Paths
 	{
 		for (key => value in epicCacheFromOhio)
 		{
-			if (Std.isOfType(value, BitmapData))
-			{
-				cast(value, BitmapData).dispose();
-			}
-
 			if (Std.isOfType(value, FlxGraphic))
 			{
-				// cast(value, FlxGraphic).dump();
 				cast(value, FlxGraphic).destroy();
 			}
 

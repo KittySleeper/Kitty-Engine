@@ -1,9 +1,6 @@
-package kitty.scripting;
+package kitty.backend.modding.scripting;
 
-import sys.FileSystem;
 import flixel.FlxG;
-import kitty.states.PlayState;
-import kitty.backend.PlayStateChangeables;
 #if sys
 import openfl.Assets;
 import hscript.*;
@@ -78,6 +75,7 @@ class HScript
 				"FlxText" => flixel.text.FlxText,
 				"FlxSound" => flixel.sound.FlxSound,
 
+				"FlxMath" => flixel.math.FlxMath,
 				"FlxTween" => FlxTween,
 				"FlxEase" => FlxEase,
 
@@ -89,7 +87,11 @@ class HScript
 				"PlayStateChangeables" => kitty.backend.PlayStateChangeables,
 				"Character" => kitty.objects.Character,
 				"Paths" => kitty.backend.Paths,
+				"CoolUtil" => kitty.backend.CoolUtil,
 				"Conductor" => kitty.backend.Conductor,
+
+				"ModState" => ModState,
+				"ModHandler" => ModHandler,
 
 				"HScript" => HScript,
 			];
