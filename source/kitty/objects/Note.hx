@@ -1,6 +1,7 @@
 package kitty.objects;
 
 import kitty.states.PlayState;
+import kitty.backend.modding.scripting.HScript;
 
 class Note extends FlxSprite
 {
@@ -23,7 +24,11 @@ class Note extends FlxSprite
 
 	public var rating:String = "shit";
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false)
+	public var noteType:String = "";
+
+	public var script:HScript;
+
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?noteType:String = "")
 	{
 		super();
 
@@ -43,6 +48,17 @@ class Note extends FlxSprite
 			this.strumTime = 0;
 
 		this.noteData = noteData;
+
+		this.noteType = noteType;
+
+		script = new HScript("data/notes/" + noteType);
+		if (!script.isBlank && script.expr != null)
+		{
+			script.interp.scriptObject = this;
+			script.setValue('add', FlxG.state.add);
+			script.setValue('remove', FlxG.state.remove);
+			script.interp.execute(script.expr);
+		}
 
 		//defaults if no noteStyle was found in chart
 		var noteTypeCheck:String = 'normal';
@@ -173,6 +189,8 @@ class Note extends FlxSprite
 				prevNote.updateHitbox();
 			}
 		}
+
+		script.callFunction("create");
 	}
 
 	public function isSustainStart():Bool {
@@ -189,7 +207,6 @@ class Note extends FlxSprite
 
 		if (mustPress)
 		{
-			// ass
 			if (isSustainNote)
 			{
 				if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * 1.5)
@@ -223,5 +240,7 @@ class Note extends FlxSprite
 			if (alpha > 0.3)
 				alpha = 0.3;
 		}
+
+		script.callFunction("update", [elapsed]);
 	}
 }

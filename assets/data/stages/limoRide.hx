@@ -5,7 +5,7 @@ var fastCar:FlxSprite;
 var fastCarCanDrive:Bool = true;
 
 function create() {
-    defaultCamZoom = 0.90;
+    stageDefaultCamZoom = 0.90;
 
     var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic(Paths.image('stages/limo/limoSunset'));
     skyBG.scrollFactor.set(0.1, 0.1);

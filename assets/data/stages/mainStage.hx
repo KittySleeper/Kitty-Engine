@@ -1,5 +1,5 @@
 function create() {
-    defaultCamZoom = 0.9;
+    stageDefaultCamZoom = 0.9;
 
     var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
     bg.antialiasing = true;

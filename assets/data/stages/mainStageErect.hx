@@ -2,7 +2,7 @@ var lights:FlxSprite;
 var lightAbove:FlxSprite;
 
 function create() {
-    defaultCamZoom = 0.85;
+    stageDefaultCamZoom = 0.85;
 
     var solid:FlxSprite = new FlxSprite(-500, -1000);
     solid.makeGraphic(2400, 2000, 0xFF222026);
@@ -52,13 +52,18 @@ function create() {
 }
 
 function postCreate() {
-    insert(members.indexOf(boyfriend) + 1, lights);
-    insert(members.indexOf(boyfriend) + 1, lightAbove);
+    add(lights);
+    add(lightAbove);
 
-    dad.x -= 75;
+    dad.x -= 275;
+    dad.camPositionOffset[0] += 75;
+    dad.camPositionOffset[1] += 35;
 
-    gf.x -= 55;
-    gf.y += 15;
+    gf.x -= 250;
+    gf.y += 35;
 
-    boyfriend.x += 210;
+    boyfriend.x -= 15;
+    boyfriend.y += 35;
+    boyfriend.camPositionOffset[0] -= 85;
+    boyfriend.camPositionOffset[1] -= 35;
 }

@@ -3,7 +3,7 @@ var bottomBoppers:FlxSprite;
 var santa:FlxSprite;
 
 function create() {
-    defaultCamZoom = 0.80;
+    stageDefaultCamZoom = 0.80;
 
     var bg:FlxSprite = new FlxSprite(-1000, -500).loadGraphic(Paths.image('stages/christmas/bgWalls'));
     bg.antialiasing = true;

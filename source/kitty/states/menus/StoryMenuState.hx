@@ -294,13 +294,12 @@ class StoryMenuState extends MusicBeatState
 			// adjusting the song name to be compatible
 			var songFormat = StringTools.replace(PlayState.storyPlaylist[0], " ", "-");
 
-			var poop:String = Highscore.formatSong(songFormat, epicDifficulties[curDifficulty]);
 			PlayState.sicks = 0;
 			PlayState.bads = 0;
 			PlayState.shits = 0;
 			PlayState.goods = 0;
 			PlayState.campaignMisses = 0;
-			PlayState.SONG = Song.loadFromJson(poop, PlayState.storyPlaylist[0]);
+			PlayState.SONG = Song.loadFromJson(songFormat, epicDifficulties[curDifficulty]);
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)

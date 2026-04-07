@@ -26,15 +26,15 @@ class ModsMenuState extends MusicBeatState
 
 		for (i => mod in modList)
 		{
+			var modIcon:FlxSprite = new FlxSprite(0, 0, ModHandler.getModIcon(mod));
+			grpIcons.push(modIcon);
+			add(modIcon);
+
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, ModHandler.getModMeta(mod).modName, true, false, true);
 			songText.color = mod == FlxG.save.data.modSelected ? FlxColor.LIME : FlxColor.WHITE;
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
-
-			var modIcon:FlxSprite = new FlxSprite(0, 0, ModHandler.getModIcon(mod));
-			grpIcons.push(modIcon);
-			add(modIcon);
 		}
 
 		changeSelection();

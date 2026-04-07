@@ -106,7 +106,7 @@ class ModHandler
 	{
 		if (!FileSystem.exists('./mods/$mod/modIcon.png'))
 		{
-			return Paths.image('week54prototype');
+			return Paths.image('nomod');
 		}
 		else
 		{

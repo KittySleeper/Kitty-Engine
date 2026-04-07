@@ -1,6 +1,7 @@
 package kitty.backend;
 
 import moonchart.formats.fnf.legacy.FNFPsych;
+import moonchart.formats.fnf.FNFCodename;
 import moonchart.backend.FormatDetector;
 
 import kitty.backend.Section;
@@ -61,35 +62,41 @@ class Song
 			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
 			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/chart$variant.json'), Paths.exists("data/songs/" + folderLowercase + '/meta$variant.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json') : null, diff);
 
-			return cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			var psychChart:Dynamic = new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			psychChart.events = new FNFCodename().fromFormat(fromFormat, diff.toLowerCase()).data.events;
+			return psychChart;
 		} else if (Paths.exists("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osz')) {
 			final fromFormatName = FormatDetector.findFormat([Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osz'), Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json')]);
 			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
 			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osz'), Paths.exists("data/songs/" + folderLowercase + '/meta$variant.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json') : null, diff);
 
-			return cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			var psychChart:Dynamic = new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			psychChart.events = new FNFCodename().fromFormat(fromFormat, diff.toLowerCase()).data.events;
+			return psychChart;
 		} else if (Paths.exists("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osu')) {
 			final fromFormatName = FormatDetector.findFormat([Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osu')]);
 			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
 			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/${diff.toLowerCase()}$variant.osu'), diff);
 
-			return cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			var psychChart:Dynamic = new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			psychChart.events = new FNFCodename().fromFormat(fromFormat, diff.toLowerCase()).data.events;
+			return psychChart;
 		} else {
 			final fromFormatName = FormatDetector.findFormat(Paths.rawFile("data/songs/" + folderLowercase + '/' + diff.toLowerCase() + ".json"));
 			final fromFormat = FormatDetector.createFormatInstance(fromFormatName);
 
 			fromFormat.fromFile(Paths.rawFile("data/songs/" + folderLowercase + '/' + diff.toLowerCase() + variant + ".json"), Paths.exists("data/songs/" + folderLowercase + '/meta$variant.json') ? Paths.rawFile("data/songs/" + folderLowercase + '/meta$variant.json') : null, diff);
 
-			var epicSong:SwagSong = cast new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			var psychChart:Dynamic = new FNFPsych().fromFormat(fromFormat, diff.toLowerCase()).data.song;
+			psychChart.events = new FNFCodename().fromFormat(fromFormat, diff.toLowerCase()).data.events;
 
 			try {
-			epicSong.stage = fromFormat.data.song.stage; //why the fuck does this happen what...?
-			epicSong.events = fromFormat.data.song.events;
+			psychChart.stage = fromFormat.data.song.stage; //why the fuck does this happen what...?
 			} catch (e) { //breaks for cne charts sometimes????
 
 			}
 
-			return epicSong;
+			return psychChart;
 		}
 	}
 

@@ -43,4 +43,13 @@ class CoolUtil
 		var re = ~/(\b\w)/g;
 		return re.map(input.toLowerCase(), r -> r.matched(0).toUpperCase());
 	}
+
+	/**
+	 * Gets the FlxEase from a string.
+	 * @param mainEase Main ease
+	 * @param suffix Suffix (Ignored if `mainEase` is `linear`)
+	 * Taken From https://github.com/CodenameCrew/CodenameEngine/blob/cd7c9f1afce8a938f7ea7962dafbcca6e2221e78/source/funkin/backend/utils/CoolUtil.hx#L968
+	 */
+	@:noUsing public static inline function flxeaseFromString(mainEase:String, ?suffix:String)
+		return Reflect.field(FlxEase, mainEase + (mainEase == "linear" || suffix == null ? "" : suffix));
 }
