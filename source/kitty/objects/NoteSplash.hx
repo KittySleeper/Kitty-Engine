@@ -11,7 +11,7 @@ class NoteSplash extends FlxSprite {
 
         if (daNote.isSustainNote) {
             frames = Paths.getSparrowAtlas("holdsplashes");
-            animation.addByPrefix(animNames[daNote.noteData], "holdCover" + (daNote.isSustainEnd() ? "End" : daNote.isSustainStart() ? "Start" : "") + animNames[daNote.noteData], 24, false);
+            animation.addByPrefix(animNames[daNote.noteData], "holdCover" + (daNote.animation.curAnim.name.contains("end") ? "End" : daNote.isSustainStart() ? "Start" : "") + animNames[daNote.noteData], 24, false);
         } else {
             frames = Paths.getSparrowAtlas("splashes");
             animation.addByPrefix(animNames[daNote.noteData], "note splash " + (FlxG.random.bool(50) ? "1 " : "2 ") + animNames[daNote.noteData], 24, false);

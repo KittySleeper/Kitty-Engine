@@ -214,6 +214,41 @@
         { "chartName": "normal" },
         { "chartName": "hard" }
       ]
+    },
+    {
+      "name": "Ugh",
+      "icon": "tankman",
+      "storyWeek": 7,
+      "color": "#f6b604",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" },
+        { "chartName": "erect", "chartVariant": "erect" },
+        { "chartName": "nightmare", "chartVariant": "erect" }
+      ]
+    },
+        {
+      "name": "Guns",
+      "icon": "tankman",
+      "storyWeek": 7,
+      "color": "#f6b604",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
+    },
+    {
+      "name": "Stress",
+      "icon": "tankman",
+      "storyWeek": 7,
+      "color": "#f6b604",
+      "difficulties": [
+        { "chartName": "easy" },
+        { "chartName": "normal" },
+        { "chartName": "hard" }
+      ]
     }
   ]
 }

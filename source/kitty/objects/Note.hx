@@ -60,62 +60,26 @@ class Note extends FlxSprite
 			script.interp.execute(script.expr);
 		}
 
-		//defaults if no noteStyle was found in chart
-		var noteTypeCheck:String = 'normal';
+		frames = Paths.getSparrowAtlas('NOTE_assets');
 
-		if (PlayState.SONG.noteStyle == null) {
-			switch(PlayState.storyWeek) {case 6: noteTypeCheck = 'pixel';}
-		} else {noteTypeCheck = PlayState.SONG.noteStyle;}
+		animation.addByPrefix('greenScroll', 'green0');
+		animation.addByPrefix('redScroll', 'red0');
+		animation.addByPrefix('blueScroll', 'blue0');
+		animation.addByPrefix('purpleScroll', 'purple0');
 
-		switch (noteTypeCheck)
-		{
-			case 'pixel':
-				loadGraphic(Paths.image('pixelUI/arrows-pixels'), true, 17, 17);
+		animation.addByPrefix('purpleholdend', 'pruple end hold');
+		animation.addByPrefix('greenholdend', 'green hold end');
+		animation.addByPrefix('redholdend', 'red hold end');
+		animation.addByPrefix('blueholdend', 'blue hold end');
 
-				animation.add('greenScroll', [6]);
-				animation.add('redScroll', [7]);
-				animation.add('blueScroll', [5]);
-				animation.add('purpleScroll', [4]);
+		animation.addByPrefix('purplehold', 'purple hold piece');
+		animation.addByPrefix('greenhold', 'green hold piece');
+		animation.addByPrefix('redhold', 'red hold piece');
+		animation.addByPrefix('bluehold', 'blue hold piece');
 
-				if (isSustainNote)
-				{
-					loadGraphic(Paths.image('pixelUI/arrowEnds'), true, 7, 6);
-
-					animation.add('purpleholdend', [4]);
-					animation.add('greenholdend', [6]);
-					animation.add('redholdend', [7]);
-					animation.add('blueholdend', [5]);
-
-					animation.add('purplehold', [0]);
-					animation.add('greenhold', [2]);
-					animation.add('redhold', [3]);
-					animation.add('bluehold', [1]);
-				}
-
-				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
-				updateHitbox();
-			default:
-				frames = Paths.getSparrowAtlas('NOTE_assets');
-
-				animation.addByPrefix('greenScroll', 'green0');
-				animation.addByPrefix('redScroll', 'red0');
-				animation.addByPrefix('blueScroll', 'blue0');
-				animation.addByPrefix('purpleScroll', 'purple0');
-
-				animation.addByPrefix('purpleholdend', 'pruple end hold');
-				animation.addByPrefix('greenholdend', 'green hold end');
-				animation.addByPrefix('redholdend', 'red hold end');
-				animation.addByPrefix('blueholdend', 'blue hold end');
-
-				animation.addByPrefix('purplehold', 'purple hold piece');
-				animation.addByPrefix('greenhold', 'green hold piece');
-				animation.addByPrefix('redhold', 'red hold piece');
-				animation.addByPrefix('bluehold', 'blue hold piece');
-
-				setGraphicSize(Std.int(width * 0.7));
-				updateHitbox();
-				antialiasing = true;
-		}
+		setGraphicSize(Std.int(width * 0.7));
+		updateHitbox();
+		antialiasing = true;
 
 		switch (noteData)
 		{
@@ -164,9 +128,6 @@ class Note extends FlxSprite
 
 			x -= width / 2;
 
-			if (PlayState.curStage.startsWith('school'))
-				x += 30;
-
 			if (prevNote.isSustainNote)
 			{
 				switch (prevNote.noteData)
@@ -181,8 +142,7 @@ class Note extends FlxSprite
 						prevNote.animation.play('redhold');
 				}
 
-
-				if(FlxG.save.data.scrollSpeed != 1)
+				if (FlxG.save.data.scrollSpeed != 1)
 					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * FlxG.save.data.scrollSpeed;
 				else
 					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
@@ -193,11 +153,13 @@ class Note extends FlxSprite
 		script.callFunction("create");
 	}
 
-	public function isSustainStart():Bool {
+	public function isSustainStart():Bool
+	{
 		return isSustainNote && (prevNote == null || prevNote == this || !prevNote.isSustainNote);
 	}
 
-	public function isSustainEnd():Bool {
+	public function isSustainEnd():Bool
+	{
 		return isSustainNote && (nextNote == null || !nextNote.isSustainNote);
 	}
 

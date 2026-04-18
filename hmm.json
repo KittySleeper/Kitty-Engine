@@ -23,6 +23,13 @@
       "url": "https://github.com/CodenameCrew/hscript-improved"
     },
     {
+      "name": "flixel-animate",
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/MaybeMaru/flixel-animate"
+    },
+    {
       "name": "hxcpp",
       "type": "git",
       "dir": null,

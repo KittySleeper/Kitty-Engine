@@ -20,7 +20,7 @@
 			"fps": 24,
 			"anim": "singUP",
 			"loop": false,
-			"name": "Tankman UP note 1"
+			"name": "Tankman UP note"
 		},
 		{
 			"offsets": [
@@ -31,7 +31,7 @@
 			"fps": 24,
 			"anim": "singDOWN",
 			"loop": false,
-			"name": "Tankman DOWN note 1"
+			"name": "Tankman DOWN note"
 		},
 		{
 			"offsets": [
@@ -42,7 +42,7 @@
 			"fps": 24,
 			"anim": "singLEFT",
 			"loop": false,
-			"name": "Tankman Right Note 1"
+			"name": "Tankman Right Note"
 		},
 		{
 			"offsets": [
@@ -53,7 +53,7 @@
 			"fps": 24,
 			"anim": "singRIGHT",
 			"loop": false,
-			"name": "Tankman Note Left 1"
+			"name": "Tankman Note Left"
 		},
 		{
 			"offsets": [
@@ -76,54 +76,11 @@
 			"anim": "singDOWN-alt",
 			"loop": false,
 			"name": "PRETTY GOOD tankman"
-		},
-		{
-			"offsets": [
-				48,
-				54
-			],
-			"indices": [],
-			"fps": 24,
-			"anim": "singUPmiss",
-			"loop": false,
-			"name": "Tankman UP note MISS"
-		},
-		{
-			"offsets": [
-				76,
-				-101
-			],
-			"indices": [],
-			"fps": 24,
-			"anim": "singDOWNmiss",
-			"loop": false,
-			"name": "Tankman DOWN note MISS"
-		},
-		{
-			"offsets": [
-				84,
-				-14
-			],
-			"indices": [],
-			"fps": 24,
-			"anim": "singLEFTmiss",
-			"loop": false,
-			"name": "Tankman Right Note MISS"
-		},
-		{
-			"offsets": [
-				-21,
-				-31
-			],
-			"indices": [],
-			"fps": 24,
-			"anim": "singRIGHTmiss",
-			"loop": false,
-			"name": "Tankman Note Left MISS"
 		}
 	],
 	"no_antialiasing": false,
-	"image": "characters/tankmanCaptain",
+	"image": "characters/tankman",
+	"sheetType": "atlas",
 	"position": [
 		0,
 		240
@@ -136,8 +93,8 @@
 		225
 	],
 	"camera_position": [
-		0,
-		0
+		-150,
+		-75
 	],
 	"sing_duration": 4,
 	"scale": 1

@@ -72,14 +72,17 @@ class HScript
 				"FlxG" => FlxG,
 				"Http" => haxe.Http,
 				"FlxSprite" => FlxSprite,
+				"FlxAnimate" => animate.FlxAnimate,
 				"FlxText" => flixel.text.FlxText,
 				"FlxSound" => flixel.sound.FlxSound,
 
 				"FlxMath" => flixel.math.FlxMath,
+				"FlxTimer" => flixel.util.FlxTimer,
 				"FlxTween" => FlxTween,
 				"FlxEase" => FlxEase,
 
 				"FlxBackdrop" => flixel.addons.display.FlxBackdrop,
+				"FlxTiledSprite" => flixel.addons.display.FlxTiledSprite,
 
 				"Assets" => Assets,
 
@@ -89,6 +92,7 @@ class HScript
 				"Paths" => kitty.backend.Paths,
 				"CoolUtil" => kitty.backend.CoolUtil,
 				"Conductor" => kitty.backend.Conductor,
+				"CustomShader" => kitty.shaders.CustomShader,
 
 				"ModState" => ModState,
 				"ModHandler" => ModHandler,

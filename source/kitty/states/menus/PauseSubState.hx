@@ -86,24 +86,9 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
-		var leftP = controls.LEFT_P;
-		var rightP = controls.RIGHT_P;
 		var accepted = controls.ACCEPT;
-
-		if (gamepad != null && KeyBinds.gamepad)
-		{
-			upP = gamepad.justPressed.DPAD_UP;
-			downP = gamepad.justPressed.DPAD_DOWN;
-			leftP = gamepad.justPressed.DPAD_LEFT;
-			rightP = gamepad.justPressed.DPAD_RIGHT;
-		}
-
-		// pre lowercasing the song name (update)
-		var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
 
 		if (upP)
 		{

@@ -1,5 +1,6 @@
 package kitty.backend;
 
+import animate.FlxAnimateFrames;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import haxe.Json;
@@ -15,7 +16,7 @@ class Paths
 	inline public static var SOUND_EXT:String = #if web "mp3" #else "ogg" #end;
 	public static var ASSETS_PATH:Array<String> = ["assets"];
 
-	inline static public function sound(key:String)
+	inline static public function sound(key:String):Sound
 	{
 		if (epicCacheFromOhio.exists('sounds/$key.$SOUND_EXT'))
 		{
@@ -29,7 +30,7 @@ class Paths
 		}
 	}
 
-	inline static public function soundRandom(key:String, min:Int, max:Int)
+	inline static public function soundRandom(key:String, min:Int, max:Int):Sound
 		return sound('$key${FlxG.random.int(min, max)}');
 
 	inline static public function music(key:String)
@@ -46,7 +47,7 @@ class Paths
 		}
 	}
 
-	inline static public function inst(key:String, variant:String)
+	inline static public function inst(key:String, variant:String):Sound
 	{
 		var songLowercase = StringTools.replace(key, " ", "-").toLowerCase();
 
@@ -67,7 +68,7 @@ class Paths
 		}
 	}
 
-	inline static public function voices(key:String, character:String, variant:String)
+	inline static public function voices(key:String, character:String, variant:String):Sound
 	{
 		var songLowercase = StringTools.replace(key, " ", "-").toLowerCase();
 		if (character != null && character != "")
@@ -92,7 +93,7 @@ class Paths
 		}
 	}
 
-	inline static public function image(key:String, renderToGPU:Bool = true)
+	inline static public function image(key:String, renderToGPU:Bool = true):FlxGraphic
 	{
 		if (epicCacheFromOhio.exists('images/$key.png'))
 		{
@@ -100,7 +101,8 @@ class Paths
 		}
 		else
 		{
-			var bitmap = BitmapData.fromFile(rawFile('images/$key.png')); bitmap.renderToGPU = renderToGPU;
+			var bitmap = BitmapData.fromFile(rawFile('images/$key.png'));
+			bitmap.renderToGPU = renderToGPU;
 			var epicImage:FlxGraphic = FlxGraphic.fromBitmapData(bitmap);
 			epicCacheFromOhio.set('images/$key.png', epicImage);
 			epicImage.persist = true;
@@ -108,17 +110,34 @@ class Paths
 		}
 	}
 
-	inline static public function getSparrowAtlas(key:String)
+	inline static public function getSparrowAtlas(key:String):FlxAtlasFrames
 		return FlxAtlasFrames.fromSparrow(image(key), xml('images/$key'));
 
+	inline static public function getAnimateAtlas(key:String):FlxAnimateFrames
+	{
+		if (epicCacheFromOhio.exists('images/$key'))
+		{
+			return epicCacheFromOhio.get('images/$key');
+		}
+		else
+		{
+			var frames:FlxAnimateFrames = FlxAnimateFrames.fromAnimate('assets/images/$key');
+			epicCacheFromOhio.set('images/$key', frames);
+			return frames;
+		}
+	}
+	
 	inline static public function getPackerAtlas(key:String)
-		return FlxAtlasFrames.fromSpriteSheetPacker(image(key), fileData('images/$key.txt'));
+		return FlxAtlasFrames.fromSpriteSheetPacker(image(key), txt('images/$key'));
 
 	inline static public function xml(key:String)
 		return fileData('$key.xml');
 
 	inline static public function txt(key:String)
 		return fileData('$key.txt');
+
+	inline static public function shader(key:String)
+		return fileData('shaders/$key.frag');
 
 	inline static public function json(key:String):Dynamic
 		return exists('$key.json') ? Json.parse(fileData('$key.json')) : Json.parse("{}");
@@ -177,15 +196,15 @@ class Paths
 		for (key => value in epicCacheFromOhio)
 		{
 			if (Std.isOfType(value, FlxGraphic))
-			{
 				cast(value, FlxGraphic).destroy();
-			}
 
 			if (Std.isOfType(value, FlxAtlasFrames))
-			{
 				cast(value, FlxAtlasFrames).destroy();
-			}
+
+			if (Std.isOfType(value, FlxAnimateFrames))
+				cast(value, FlxAnimateFrames).destroy();
 		}
+
 		epicCacheFromOhio.clear();
 
 		#if cpp
