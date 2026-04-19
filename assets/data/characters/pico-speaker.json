@@ -7,7 +7,7 @@
 			],
 			"loop": false,
 			"fps": 24,
-			"anim": "shoot1",
+			"anim": "shoot0",
 			"indices": [],
 			"name": "Pico shoot 1"
 		},
@@ -18,7 +18,7 @@
 			],
 			"loop": false,
 			"fps": 24,
-			"anim": "shoot2",
+			"anim": "shoot1",
 			"indices": [],
 			"name": "Pico shoot 2"
 		},
@@ -29,7 +29,7 @@
 			],
 			"loop": false,
 			"fps": 24,
-			"anim": "shoot3",
+			"anim": "shoot2",
 			"indices": [],
 			"name": "Pico shoot 3"
 		},
@@ -40,7 +40,7 @@
 			],
 			"loop": false,
 			"fps": 24,
-			"anim": "shoot4",
+			"anim": "shoot3",
 			"indices": [],
 			"name": "Pico shoot 4"
 		},
@@ -51,7 +51,7 @@
 			],
 			"loop": true,
 			"fps": 24,
-			"anim": "shoot3-loop",
+			"anim": "shoot2-loop",
 			"indices": [
 				50,
 				51,
@@ -66,7 +66,7 @@
 			],
 			"loop": true,
 			"fps": 24,
-			"anim": "shoot1-loop",
+			"anim": "shoot0-loop",
 			"indices": [
 				23,
 				24,
@@ -81,7 +81,7 @@
 			],
 			"loop": true,
 			"fps": 24,
-			"anim": "shoot2-loop",
+			"anim": "shoot1-loop",
 			"indices": [
 				57,
 				58,
@@ -96,7 +96,7 @@
 			],
 			"loop": true,
 			"fps": 24,
-			"anim": "shoot4-loop",
+			"anim": "shoot3-loop",
 			"indices": [
 				50,
 				51,

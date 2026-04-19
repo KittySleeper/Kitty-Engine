@@ -1,5 +1,6 @@
 package kitty.objects;
 
+import kitty.backend.modding.scripting.HScript;
 import animate.FlxAnimate;
 
 class Character extends FlxAnimate
@@ -26,8 +27,22 @@ class Character extends FlxAnimate
 
 	public var sheetType:String = "sparrow";
 
+	public var script:HScript;
+	public var danceCallback:Void->Void = null;
+
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
+		script = new HScript('data/characters/' + character);
+		if (!script.isBlank && script.expr != null)
+		{
+			script.interp.scriptObject = this;
+			script.setValue('add', FlxG.state.add);
+			script.setValue('remove', FlxG.state.remove);
+			script.interp.execute(script.expr);
+		}
+
+		script.callFunction("create");
+
 		var charJson:Dynamic = Paths.json('data/characters/' + character) == null ? Paths.json('data/characters/bf') : Paths.json('data/characters/'
 			+ character);
 		positionOffset = charJson.position;
@@ -72,13 +87,14 @@ class Character extends FlxAnimate
 		antialiasing = !charJson.no_antialiasing;
 		singDuration = charJson.sing_duration;
 
-		dance();
+		danceCallback = dance;
+		danceCallback();
 
 		if (isPlayer)
 		{
 			flipX = !flipX;
 
-			if (!curCharacter.startsWith('bf'))
+			if (animation != null && !curCharacter.startsWith('bf'))
 			{
 				// var animArray
 				var oldRight = animation.getByName("singRIGHT").frames;
@@ -100,54 +116,55 @@ class Character extends FlxAnimate
 				}
 			}
 		}
+
+		script.callFunction("postCreate");
 	}
 
 	override function update(elapsed:Float)
 	{
-		if (specialAnimation && animation.curAnim.finished)
+		script.callFunction("update", [elapsed]);
+
+		if (specialAnimation && animation != null && animation.curAnim != null && animation.curAnim.finished)
 			specialAnimation = false;
 
-		if (animation.curAnim.name.startsWith('sing'))
+		if (animation != null && animation.curAnim != null && animation.curAnim.name.startsWith('sing'))
 		{
 			holdTimer += elapsed;
 		}
 
 		if (holdTimer >= Conductor.stepCrochet * singDuration * 0.001)
 		{
-			dance();
+			danceCallback();
 			holdTimer = 0;
 		}
 
 		if (isPlayer)
 		{
-			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
+			if (animation != null && animation.curAnim != null && animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
 			{
 				playAnim('idle', true, false, 10);
 			}
 
-			if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished)
+			if (animation != null && animation.curAnim != null && animation.curAnim.name == 'firstDeath' && animation.curAnim.finished)
 			{
 				playAnim('deathLoop');
 			}
 		}
 
-		switch (curCharacter)
-		{
-			case 'gf':
-				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
-					playAnim('danceRight');
-		}
-
 		super.update(elapsed);
+
+		script.callFunction("postUpdate", [elapsed]);
 	}
 
 	private var danced:Bool = false;
 
 	public function dance()
 	{
+		script.callFunction("dance");
+
 		if (!debugMode)
 		{
-			if (animation.exists("danceLeft"))
+			if (animation != null && animation.exists("danceLeft"))
 			{
 				danced = !danced;
 
@@ -161,17 +178,23 @@ class Character extends FlxAnimate
 				playAnim('idle');
 			}
 		}
+
+		script.callFunction("postDance");
 	}
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
-		if (specialAnimation || !animation.exists(AnimName))
+		if (specialAnimation || animation == null || !animation.exists(AnimName))
 			return;
+
+		script.callFunction("playAnim", [AnimName, Force, Reversed, Frame]);
 
 		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(AnimName);
 		offset.set(daOffset[0], daOffset[1]);
+
+		script.callFunction("postPlayAnim", [AnimName, Force, Reversed, Frame]);
 	}
 
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)

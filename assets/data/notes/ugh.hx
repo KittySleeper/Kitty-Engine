@@ -1,4 +1,4 @@
 function opponentNoteHit() {
-    FlxG.state.dad.playAnim("singUP-alt", true);
+    FlxG.state.dad.playAnim("ugh", true);
     // FlxG.state.dad.specialAnimation = true;
 }

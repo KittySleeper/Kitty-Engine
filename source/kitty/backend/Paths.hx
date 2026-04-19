@@ -121,7 +121,8 @@ class Paths
 		}
 		else
 		{
-			var frames:FlxAnimateFrames = FlxAnimateFrames.fromAnimate('assets/images/$key');
+			var frames:FlxAnimateFrames = FlxAnimateFrames.fromAnimate(rawFile('images/$key'));
+			frames.parent.persist = true;
 			epicCacheFromOhio.set('images/$key', frames);
 			return frames;
 		}

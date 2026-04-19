@@ -85,6 +85,7 @@ class HScript
 				"FlxTiledSprite" => flixel.addons.display.FlxTiledSprite,
 
 				"Assets" => Assets,
+				"Json" => haxe.Json,
 
 				"PlayState" => kitty.states.PlayState,
 				"PlayStateChangeables" => kitty.backend.PlayStateChangeables,

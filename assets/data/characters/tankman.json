@@ -62,7 +62,7 @@
 			],
 			"indices": [],
 			"fps": 24,
-			"anim": "singUP-alt",
+			"anim": "ugh",
 			"loop": false,
 			"name": "TANKMAN UGH"
 		},
@@ -73,7 +73,7 @@
 			],
 			"indices": [],
 			"fps": 24,
-			"anim": "singDOWN-alt",
+			"anim": "hehPrettyGood",
 			"loop": false,
 			"name": "PRETTY GOOD tankman"
 		}
@@ -93,7 +93,7 @@
 		225
 	],
 	"camera_position": [
-		-150,
+		-135,
 		-75
 	],
 	"sing_duration": 4,
